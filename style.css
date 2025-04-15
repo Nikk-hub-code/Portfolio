@@ -1,0 +1,128 @@
+html{
+    scroll-behavior: smooth;
+}
+body{
+    background-color: #0e1126;
+    color: #FFF4B7;
+}
+footer{
+    background-color: #01182e;
+}
+a{
+    text-decoration: none;
+}
+#name{
+    height: 650px;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    text-align: center;
+    align-items: center;
+    padding-top: 17%;
+}
+#navbar{
+    height: 50px;
+    background-color: #01182e;
+    width: 90%;
+    border-radius: 50px;
+    text-align: center;
+    margin: 0 auto;
+    position: fixed;
+}
+.nav_object{
+    padding-top: 1%;
+    display: inline-block;
+}
+.project-block{
+    height: 180px;
+    width: 260px;
+    display: inline-block;
+    border-radius: 5%;
+    background-color: #006A67;
+    text-align: center;
+    perspective: 1000px;
+}
+.card-container{
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.6s;
+}
+.front, .back{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+}
+.front{
+    text-align: center;
+    transform: rotateY(0deg);
+}
+.back{
+    transform: rotateY(180deg);
+}
+.project-block:hover .card-container{
+    transform: rotateY(180deg);
+}
+.section-Interest-element{
+    display: inline-block;
+    border-style: ridge;
+    border-radius: 50px;
+    background-color: #006A67;
+}
+.link{
+    color: #FFF4B7;
+    padding-left: 70px;
+    font-size: 20px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+.tail{
+    padding: 1%;
+    width: 100%;
+    height: 30px;
+    text-align: center;
+    font-size: 20px;
+}
+.section-content{
+    width: 70%;
+    margin: 0 auto;
+    margin-bottom: 50px;
+    border: 2px solid black;
+    border-radius: 10px;
+    background-color: #01182e;
+}
+.section-content-block{
+    border-bottom: 1px solid black;
+    padding-bottom: 15px;
+    padding-left: 15px;
+    font-size: large;
+}
+.desc-cnt{
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+@media (max-width: 1145px) {
+    .project-block{
+        height: 150px;
+        width: 230px;
+    }
+}
+@media (max-width: 1015px) {
+    .project-block{
+        height: 120px;
+        width: 200px;
+        font-size: 12px;
+    }
+}
+@media (max-width: 465px) {
+    .link{
+        font-size: 16px;
+    }
+}
+@media (max-width: 420px) {
+    .link{
+        font-size: 12px;
+    }
+}
+@media (min-width: 425px) {
+    #navbar{
+        opacity: 0.5;
+    }
+}
