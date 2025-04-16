@@ -31,6 +31,7 @@ p{
     text-align: center;
     margin: 0 auto;
     position: fixed;
+    opacity: 0.5;
 }
 .nav_object{
     padding-top: 1%;
@@ -126,10 +127,5 @@ p{
 @media (max-width: 420px) {
     .link{
         font-size: 12px;
-    }
-}
-@media (min-width: 425px) {
-    #navbar{
-        opacity: 0.5;
     }
 }
