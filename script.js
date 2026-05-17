@@ -53,7 +53,6 @@ experience  - Experience & learning
 achievements- Certifications & achievements
 resume      - Resume information
 contact     - Contact details
-socials     - Social media links
 clear       - Clear terminal
 `,
 
@@ -168,17 +167,6 @@ Type:
 contact
 
 to connect with me directly.
-`,
-
-    socials: `
-GitHub:
-https://github.com/Nikk-hub-code
-
-LinkedIn:
-https://www.linkedin.com/in/nikk18/
-
-Portfolio:
-nikkode.vercel.app
 `,
 
     contact: `
