@@ -62,7 +62,6 @@ Designed to simulate a real developer terminal experience while showcasing proje
 | `experience` | Learning journey and development |
 | `achievements` | Certifications and achievements |
 | `resume` | Resume overview |
-| `socials` | Social media links |
 | `contact` | Contact information |
 | `clear` | Clear the terminal screen |
 
@@ -97,5 +96,5 @@ terminal-portfolio/
 ├── index.html        # Main HTML structure
 ├── style.css         # Styling, animations, cyberpunk effects
 ├── script.js         # Terminal logic & robot behavior
-├── favicon.png       # Custom portfolio favicon
+├── favicon.ico       # Custom portfolio favicon
 └── README.md         # Project documentation
