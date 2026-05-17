@@ -41,27 +41,157 @@ const staticIntroHTML = `
 
 // ================= COMMANDS =================
 const commands = {
+
     help: `
 Available commands:
-whoami
-skills
-projects
-education
-contact
-clear
+
+whoami      - About me
+skills      - Technical skills
+projects    - My projects
+education   - Education details
+experience  - Experience & learning
+achievements- Certifications & achievements
+resume      - Resume information
+contact     - Contact details
+socials     - Social media links
+clear       - Clear terminal
 `,
-    whoami: "Kaushal Kumar Jha, aspiring web developer.",
-    skills: "HTML, CSS, JavaScript, Python, and problem solving.",
+
+    whoami: `
+Hello, I'm Kaushal Kumar Jha.
+
+A Computer Science Engineering student passionate about:
+- Artificial Intelligence
+- Machine Learning
+- Web Development
+- Autonomous Systems
+
+Currently building:
+- JUNE AI Assistant
+- AI/ML projects
+
+Goal:
+To become an AI/ML Engineer and build intelligent systems from scratch.
+`,
+
+    skills: `
+Frontend:
+- HTML5
+- CSS3
+- JavaScript
+- Responsive UI Design
+
+Programming:
+- Python
+- C
+
+AI / ML:
+- Machine Learning Basics
+- NLP Fundamentals
+- Neural Networks
+- Deep Learning Concepts
+
+Tools & Technologies:
+- Git & GitHub
+- VS Code
+
+Core CS:
+- Data Structures & Algorithms
+- OOPs
+- DBMS
+`,
+
     projects: `
-Terminal style portfolio.
-Countdown timer.
-Array and string problem solver.
+1. JUNE AI Assistant
+   - AI-powered assistant inspired by J.A.R.V.I.S
+   - Custom frontend + backend architecture
+   - Research engine + fallback response system
+   - Context-aware interaction system
+
+2. Crop Recommendation System
+   - ML-based agriculture recommendation project
+   - Suggests suitable crops using environmental data
+
+3. Terminal Portfolio
+   - Interactive terminal-style portfolio website
+   - Voice synthesis + animated robot assistant
+   - Command-based navigation system
 `,
-    education: "Bachelor of Technology in Computer Science.",
+
+    education: `
+Bachelor of Technology (B.Tech)
+Computer Science Engineering
+
+Current Focus:
+- Artificial Intelligence
+- Machine Learning
+- Web Technologies
+- System Design
+`,
+
+    experience: `
+Learning Journey:
+
+- Solving programming problems
+- Building real-world AI projects
+- Exploring LLM architectures
+
+Currently learning:
+- Deep Learning
+- NLP
+- AI System Architecture
+`,
+
+    achievements: `
+Achievements & Highlights:
+
+- Built multiple AI-based academic projects
+- Developed a terminal-style interactive portfolio
+- Working on custom AI assistant architecture
+- Strong interest in research-oriented development
+- Continuous learner in AI and emerging technologies
+`,
+
+    resume: `
+Resume Highlights:
+
+Role Target:
+- AI/ML Engineer
+
+Key Strengths:
+- Fast learner
+- Problem solving
+- Project development
+- Creative technical thinking
+
+Type:
+contact
+
+to connect with me directly.
+`,
+
+    socials: `
+GitHub:
+https://github.com/Nikk-hub-code
+
+LinkedIn:
+https://www.linkedin.com/in/nikk18/
+
+Portfolio:
+nikkode.vercel.app
+`,
+
     contact: `
-Email: kaushal@example.com
-GitHub: github.com/kaushal
-LinkedIn: linkedin.com/in/kaushal
+Contact Information
+
+Email:
+jhakaushal.1809@gmail.com
+
+GitHub:
+https://github.com/Nikk-hub-code
+
+LinkedIn:
+https://www.linkedin.com/in/nikk18/
 `
 };
 
