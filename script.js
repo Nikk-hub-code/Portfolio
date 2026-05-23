@@ -101,20 +101,32 @@ Core CS:
 `,
 
     projects: `
-1. JUNE AI Assistant
-   - AI-powered assistant inspired by J.A.R.V.I.S
-   - Custom frontend + backend architecture
-   - Research engine + fallback response system
-   - Context-aware interaction system
+1. JUNE AI Assistant (Working)
+    - AI-powered assistant inspired by J.A.R.V.I.S
+    - Custom frontend + backend architecture
+    - Research engine + fallback response system
+    - Context-aware interaction system
+
+    Github:- github.com/Nikk-hub-code/june-ai-assistant
 
 2. Crop Recommendation System
-   - ML-based agriculture recommendation project
-   - Suggests suitable crops using environmental data
+    - ML-based agriculture recommendation project
+    - Suggests suitable crops using environmental data
 
-3. Terminal Portfolio
-   - Interactive terminal-style portfolio website
-   - Voice synthesis + animated robot assistant
-   - Command-based navigation system
+    Github:- github.com/Nikk-hub-code/Crop-Recommendation-System
+
+3. Handwritten Digit Recognition
+    - Developed a Handwritten Digit Recognition system using Convolutional Neural Networks (CNN) with TensorFlow/Keras, achieving high accuracy on the MNIST dataset.
+    - Built an end-to-end AI web application using Flask that preprocesses uploaded handwritten images and predicts digits in real time using a trained deep learning model.
+
+    Github:- github.com/Nikk-hub-code/HandwrittenDigitReognition
+
+4. Terminal Portfolio
+    - Interactive terminal-style portfolio website
+    - Voice synthesis + animated robot assistant
+    - Command-based navigation system
+
+    Github:- github.com/Nikk-hub-code/Portfolio
 `,
 
     education: `
