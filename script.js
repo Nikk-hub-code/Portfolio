@@ -104,10 +104,9 @@ Core CS:
 1. JUNE AI Assistant (Working)
     - AI-powered assistant inspired by J.A.R.V.I.S
     - Custom frontend + backend architecture
-    - Research engine + fallback response system
-    - Context-aware interaction system
+    - Research engine + fallback response system\n
 
-    Github:- github.com/Nikk-hub-code/june-ai-assistant
+    Github:- github.com/Nikk-hub-code/june-ai-assistant\n
 
 2. Crop Recommendation System
     - ML-based agriculture recommendation project
@@ -119,7 +118,7 @@ Core CS:
     - Developed a Handwritten Digit Recognition system using Convolutional Neural Networks (CNN) with TensorFlow/Keras, achieving high accuracy on the MNIST dataset.
     - Built an end-to-end AI web application using Flask that preprocesses uploaded handwritten images and predicts digits in real time using a trained deep learning model.
 
-    Github:- github.com/Nikk-hub-code/HandwrittenDigitReognition
+    Github:- github.com/Nikk-hub-code/HandwrittenDigitRecognition
 
 4. Terminal Portfolio
     - Interactive terminal-style portfolio website
