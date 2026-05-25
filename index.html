@@ -2,56 +2,407 @@
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8" />
-    <title>Kaushal | Terminal Portfolio</title>
 
-    <link rel="icon" href="./favicon.ico">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0" />
 
-    <link href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    <title>Kaushal OS | AI Portfolio</title>
+
+    <link rel="icon"
+        href="./favicon.ico">
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;700&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet"
+        href="style.css">
+
 </head>
 
 <body>
-    <div class="layout">
-        <!-- Terminal -->
-        <div class="terminal">
-            <div class="terminal-header">
-                <span class="dot red"></span>
-                <span class="dot yellow"></span>
-                <span class="dot green"></span>
-                <span class="title">kaushal@portfolio:~</span>
+
+    <!-- MATRIX CANVAS -->
+    <canvas id="matrix-canvas"></canvas>
+
+    <!-- SCAN -->
+    <div class="scan-line"></div>
+
+    <!-- GRID -->
+    <div class="bg-grid"></div>
+
+    <!-- VIGNETTE -->
+    <div class="vignette"></div>
+
+    <!-- CURSOR -->
+    <div class="cursor-glow"></div>
+
+    <!-- NEURAL CANVAS -->
+    <canvas id="neural-canvas"></canvas>
+
+    <!-- ORBS -->
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+
+    <!-- HERO -->
+    <section class="os-hero">
+
+        <div class="hero-frame">
+
+            <!-- TOP BAR -->
+            <div class="top-bar">
+
+                <div class="top-left">
+                    KAUSHAL OS v3.0
+                </div>
+
+                <div class="top-center">
+                    ADVANCED AI INTERFACE
+                </div>
+
+                <div class="top-right"
+                    id="system-time">
+
+                    SYSTEM TIME: --:--:--
+
+                </div>
+
             </div>
 
-            <div class="output" id="output">
-                <pre class="logo">
- _  __    _    _   _ ____  _   _    _    _
-| |/ /   / \  | | | / ___|| | | |  / \  | |
-| ' /   / _ \ | | | \___ \| |_| | / _ \ | |
-| . \  / ___ \| |_| |___) |  _  |/ ___ \| |__
-|_|\_\/_/   \_\____/|____/|_| |_/_/   \_\____|
-                </pre>
+            <!-- HERO LAYOUT -->
+            <div class="hero-layout">
+
+                <!-- LEFT -->
+                <div class="hero-left">
+
+                    <div class="system-tag">
+                        // WELCOME TO THE SYSTEM
+                    </div>
+
+                    <div class="background-name">
+                        KAUSHAL
+                    </div>
+
+                    <h1 class="hero-name">
+                        KAUSHAL
+                    </h1>
+
+                    <h2 class="hero-role">
+                        <span id="typing-text"></span>
+                    </h2>
+
+                    <div class="hero-subline">
+                        [ BUILDING FUTURISTIC AI SYSTEMS ]
+                    </div>
+
+                    <p class="hero-desc">
+
+                        Passionate about Artificial Intelligence,
+                        Machine Learning, Deep Learning and building
+                        futuristic intelligent systems.
+
+                        Currently developing JUNE AI Assistant
+                        and exploring next-generation AI architectures.
+
+                    </p>
+
+                    <!-- TECH STACK -->
+                    <div class="tech-stack">
+
+                        <span>🐍 Python</span>
+
+                        <span>🧠 Machine Learning</span>
+
+                        <span>⚡ Deep Learning</span>
+
+                        <span>💬 NLP</span>
+
+                        <span>🚀 FastAPI</span>
+
+                        <span>🔶 TensorFlow</span>
+
+                    </div>
+
+                    <!-- BUTTONS -->
+                    <div class="hero-actions">
+
+                        <a href="#terminal-section"
+                            class="primary-btn">
+
+                            <div>
+                                >_ INITIALIZE SYSTEM
+                            </div>
+
+                            <small>
+                                ACCESS TERMINAL
+                            </small>
+
+                        </a>
+
+                        <a href="#terminal-section"
+                            class="secondary-btn">
+
+                            <div>
+                                ⬡ VIEW PROJECTS
+                            </div>
+
+                            <small>
+                                EXPLORE WORK
+                            </small>
+
+                        </a>
+
+                    </div>
+
+                    <!-- LINKS -->
+                    <div class="small-actions">
+
+                        <a href="resume.pdf"
+                            target="_blank">
+
+                            📄 RESUME
+
+                        </a>
+
+                        <a href="https://github.com/Nikk-hub-code"
+                            target="_blank">
+
+                            GITHUB
+
+                        </a>
+
+                        <a href="https://linkedin.com/in/nikk18"
+                            target="_blank">
+
+                            LINKEDIN
+
+                        </a>
+
+                    </div>
+
+                    <!-- BOOT -->
+                    <div class="boot-box">
+
+                        <div>
+                            > Booting Kaushal OS v3.0...
+                        </div>
+
+                        <div>
+                            > Loading neural modules.............. [ OK ]
+                        </div>
+
+                        <div>
+                            > Initializing AI engine............. [ OK ]
+                        </div>
+
+                        <div>
+                            > Connecting portfolio database...... [ OK ]
+                        </div>
+
+                        <div class="online">
+                            > System online. Ready.
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- RIGHT -->
+                <div class="hero-right">
+
+                    <!-- STATUS -->
+                    <div class="hud-card status-card">
+
+                        <div class="card-line"></div>
+
+                        <h3>
+                            AI SYSTEM STATUS
+                        </h3>
+
+                        <div class="status-row">
+                            <span>AI CORE</span>
+                            <strong>ONLINE ●</strong>
+                        </div>
+
+                        <div class="status-row">
+                            <span>ML MODULE</span>
+                            <strong>ACTIVE ●</strong>
+                        </div>
+
+                        <div class="status-row">
+                            <span>NLP ENGINE</span>
+                            <strong>ACTIVE ●</strong>
+                        </div>
+
+                        <div class="status-row">
+                            <span>SYSTEM LOAD</span>
+                            <strong>98%</strong>
+                        </div>
+
+                        <div class="status-row">
+                            <span>PROJECTS</span>
+                            <strong>04</strong>
+                        </div>
+
+                    </div>
+
+                    <!-- AI VISUAL -->
+                    <div class="ai-visual">
+
+                        <div class="ring ring-1"></div>
+                        <div class="ring ring-2"></div>
+                        <div class="ring ring-3"></div>
+
+                        <div class="orbit orbit-1"></div>
+                        <div class="orbit orbit-2"></div>
+
+                        <div class="energy-core"></div>
+
+                        <div class="particle p1"></div>
+                        <div class="particle p2"></div>
+                        <div class="particle p3"></div>
+                        <div class="particle p4"></div>
+
+                        <div class="platform"></div>
+
+                    </div>
+
+                    <!-- FOCUS -->
+                    <div class="hud-card focus-card">
+
+                        <div class="card-line"></div>
+
+                        <h3>
+                            CURRENT FOCUS
+                        </h3>
+
+                        <p>• Advanced AI Systems</p>
+                        <p>• Large Language Models</p>
+                        <p>• JUNE AI Assistant</p>
+                        <p>• Neural Architectures</p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- FLOOR -->
+            <div class="cyber-floor"></div>
+
+            <!-- SCROLL -->
+            <div class="scroll-indicator">
+
+                <div class="scroll-arrow"></div>
+
+                <span>
+                    SCROLL DOWN
+                </span>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- TERMINAL -->
+    <section class="layout"
+        id="terminal-section">
+
+        <div class="terminal">
+
+            <div class="terminal-header">
+
+                <div class="terminal-dots">
+
+                    <span class="dot red"></span>
+                    <span class="dot yellow"></span>
+                    <span class="dot green"></span>
+
+                </div>
+
+                <span class="title">
+                    kaushal@portfolio:~
+                </span>
+
+                <span class="terminal-status">
+                    AI CORE ONLINE
+                </span>
+
+            </div>
+
+            <div class="terminal-toolbar">
+
+                <span>SESSION: ACTIVE</span>
+                <span>MODE: INTERACTIVE</span>
+                <span>SECURITY: ENABLED</span>
+
+            </div>
+
+            <div class="output"
+                id="output"></div>
+
+            <div class="suggestion-line"
+                id="suggestion-line">
+
+                suggestion:
+                <span id="suggestion-text">none</span>
+
             </div>
 
             <div class="input-line">
-                <span class="prompt">&gt;</span>
-                <input type="text" id="command" autocomplete="off" autofocus />
-                <span class="cursor">█</span>
+
+                <span class="prompt">
+                    kaushal@os:~$
+                </span>
+
+                <input type="text"
+                    id="command"
+                    autocomplete="off"
+                    spellcheck="false"
+                    disabled />
+
+                <span class="cursor">
+                    █
+                </span>
+
             </div>
+
         </div>
 
-        <!-- Robot Side Panel -->
+        <!-- SIDE -->
         <div class="side-panel">
+
             <div class="robot">
+
+                <div class="antenna"></div>
+
                 <div class="head">
-                    <div class="eye left-eye"></div>
-                    <div class="eye right-eye"></div>
+
+                    <div class="eye"></div>
+                    <div class="eye"></div>
+
                 </div>
-                <div class="body"></div>
+
+                <div class="neck"></div>
+
+                <div class="body">
+
+                    <div class="robot-core"></div>
+
+                </div>
+
             </div>
+
         </div>
-    </div>
+
+    </section>
 
     <script src="script.js"></script>
+
 </body>
 
 </html>
