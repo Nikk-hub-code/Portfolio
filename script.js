@@ -1,4 +1,6 @@
+// =========================
 // ELEMENTS
+// =========================
 
 const input =
     document.getElementById("command");
@@ -24,9 +26,20 @@ const terminal =
 const suggestionText =
     document.getElementById("suggestion-text");
 
+const projectCards =
+    document.querySelectorAll(".project-card");
+
+const navbar =
+    document.getElementById("navbar");
+
+const scrollProgressBar =
+    document.getElementById("scroll-progress-bar");
+
 input.disabled = true;
 
-// TIME
+// =========================
+// SYSTEM TIME
+// =========================
 
 function updateSystemTime(){
 
@@ -34,9 +47,12 @@ function updateSystemTime(){
         new Date();
 
     const time =
-        now.toLocaleTimeString("en-IN",{
-            hour12:false
-        });
+        now.toLocaleTimeString(
+            "en-IN",
+            {
+                hour12:false
+            }
+        );
 
     systemTime.textContent =
         `SYSTEM TIME: ${time}`;
@@ -46,17 +62,13 @@ setInterval(updateSystemTime,1000);
 
 updateSystemTime();
 
-// HERO TYPE TEXT
+// =========================
+// HERO TYPE EFFECT
+// =========================
 
 const roles = [
 
-    "AI / ML ENGINEER",
-
-    "INTELLIGENT SYSTEM BUILDER",
-
-    "JUNE AI ASSISTANT CREATOR",
-
-    "FUTURISTIC INTERFACE DEVELOPER"
+    "AI / ML ENGINEER"
 ];
 
 let roleIndex = 0;
@@ -71,7 +83,10 @@ function typeHeroText(){
     if(!deleting){
 
         typingText.textContent =
-            currentRole.substring(0,charIndex + 1);
+            currentRole.substring(
+                0,
+                charIndex + 1
+            );
 
         charIndex++;
 
@@ -79,7 +94,10 @@ function typeHeroText(){
 
             deleting = true;
 
-            setTimeout(typeHeroText,1500);
+            setTimeout(
+                typeHeroText,
+                1500
+            );
 
             return;
         }
@@ -87,7 +105,10 @@ function typeHeroText(){
     }else{
 
         typingText.textContent =
-            currentRole.substring(0,charIndex - 1);
+            currentRole.substring(
+                0,
+                charIndex - 1
+            );
 
         charIndex--;
 
@@ -96,7 +117,8 @@ function typeHeroText(){
             deleting = false;
 
             roleIndex =
-                (roleIndex + 1) % roles.length;
+                (roleIndex + 1) %
+                roles.length;
         }
     }
 
@@ -108,18 +130,71 @@ function typeHeroText(){
 
 typeHeroText();
 
+// =========================
 // CURSOR GLOW
+// =========================
 
-document.addEventListener("mousemove",e=>{
+document.addEventListener(
+    "mousemove",
+    e=>{
 
-    cursorGlow.style.left =
-        e.clientX + "px";
+        cursorGlow.style.left =
+            e.clientX + "px";
 
-    cursorGlow.style.top =
-        e.clientY + "px";
-});
+        cursorGlow.style.top =
+            e.clientY + "px";
+    }
+);
 
-// UTILS
+// =========================
+// SCROLL PROGRESS
+// =========================
+
+window.addEventListener(
+    "scroll",
+    ()=>{
+
+        const scrollTop =
+            document.documentElement.scrollTop;
+
+        const scrollHeight =
+            document.documentElement.scrollHeight -
+            document.documentElement.clientHeight;
+
+        const progress =
+            (scrollTop / scrollHeight) * 100;
+
+        scrollProgressBar.style.width =
+            `${progress}%`;
+
+        // NAVBAR EFFECT
+
+        if(scrollTop > 50){
+
+            navbar.classList.add(
+                "scrolled"
+            );
+
+        }else{
+
+            navbar.classList.remove(
+                "scrolled"
+            );
+        }
+
+        // PARALLAX HERO
+
+        const hero =
+            document.querySelector(".hero-frame");
+
+        hero.style.transform =
+            `translateY(${scrollTop * 0.08}px)`;
+    }
+);
+
+// =========================
+// TERMINAL UTILS
+// =========================
 
 function sleep(ms){
 
@@ -134,7 +209,10 @@ function scrollOutput(){
         output.scrollHeight;
 }
 
-function appendLine(text,className = "output-line"){
+function appendLine(
+    text,
+    className = "output-line"
+){
 
     const div =
         document.createElement("div");
@@ -152,7 +230,11 @@ function appendLine(text,className = "output-line"){
     return div;
 }
 
-async function typeLine(text,className = "output-line",speed = 15){
+async function typeLine(
+    text,
+    className = "output-line",
+    speed = 15
+){
 
     const div =
         document.createElement("div");
@@ -164,8 +246,7 @@ async function typeLine(text,className = "output-line",speed = 15){
 
     for(let i = 0; i < text.length; i++){
 
-        div.innerHTML +=
-            text[i];
+        div.innerHTML += text[i];
 
         scrollOutput();
 
@@ -175,7 +256,11 @@ async function typeLine(text,className = "output-line",speed = 15){
     return div;
 }
 
-async function typeBlock(text,className = "output-line",speed = 8){
+async function typeBlock(
+    text,
+    className = "output-line",
+    speed = 8
+){
 
     const lines =
         text.trim().split("\n");
@@ -195,7 +280,9 @@ async function aiThinking(){
     const steps = [
 
         "> Analyzing command...",
+
         "> Accessing neural memory...",
+
         "> Building response..."
     ];
 
@@ -213,16 +300,22 @@ async function aiThinking(){
 
 function triggerGlitch(){
 
-    terminal.classList.add("glitch");
+    terminal.classList.add(
+        "glitch"
+    );
 
     setTimeout(()=>{
 
-        terminal.classList.remove("glitch");
+        terminal.classList.remove(
+            "glitch"
+        );
 
     },700);
 }
 
+// =========================
 // TERMINAL BOOT
+// =========================
 
 async function bootTerminal(){
 
@@ -231,44 +324,50 @@ async function bootTerminal(){
     suggestionText.textContent =
         "none";
 
-    output.innerHTML =
-        "";
+    output.innerHTML = "";
 
     const bootLines = [
 
         {
-            text:"> Powering Kaushal OS terminal...",
-            className:"info-text"
+            text:
+                "> Powering Kaushal OS terminal...",
+            className:
+                "info-text"
         },
 
         {
-            text:"> Loading interface modules........ [ OK ]",
-            className:"success-text"
+            text:
+                "> Loading interface modules........ [ OK ]",
+            className:
+                "success-text"
         },
 
         {
-            text:"> Connecting neural systems........ [ OK ]",
-            className:"success-text"
+            text:
+                "> Connecting neural systems........ [ OK ]",
+            className:
+                "success-text"
         },
 
         {
-            text:"> Initializing AI engine........... [ OK ]",
-            className:"success-text"
+            text:
+                "> Initializing AI engine........... [ OK ]",
+            className:
+                "success-text"
         },
 
         {
-            text:"> Loading command history.......... [ OK ]",
-            className:"success-text"
+            text:
+                "> Security layer active............ [ ENABLED ]",
+            className:
+                "warning-text"
         },
 
         {
-            text:"> Security layer active............ [ ENABLED ]",
-            className:"warning-text"
-        },
-
-        {
-            text:"> Terminal online.",
-            className:"success-text"
+            text:
+                "> Terminal online.",
+            className:
+                "success-text"
         }
     ];
 
@@ -284,26 +383,49 @@ async function bootTerminal(){
     }
 
     appendLine(
+
         `
         <div class="terminal-card">
-            <div class="success-text">WELCOME TO KAUSHAL AI TERMINAL</div>
+
+            <div class="success-text">
+                WELCOME TO KAUSHAL AI TERMINAL
+            </div>
+
             <br>
-            Type <span class="info-text">'help'</span> to see available commands.<br>
-            Use <span class="info-text">↑</span> and <span class="info-text">↓</span> for command history.<br>
-            Try <span class="info-text">'matrix'</span>, <span class="info-text">'projects'</span>, <span class="info-text">'scan'</span>, or <span class="info-text">'status'</span>.
+
+            Type
+            <span class="info-text">
+                'help'
+            </span>
+            to see available commands.
+
+            <br>
+
+            Try:
+            <span class="info-text">
+                matrix
+            </span>,
+            <span class="info-text">
+                projects
+            </span>,
+            <span class="info-text">
+                status
+            </span>
+
         </div>
         `
     );
 
-    input.disabled =
-        false;
+    input.disabled = false;
 
     input.focus();
 }
 
 bootTerminal();
 
-// COMMAND DATA
+// =========================
+// COMMANDS
+// =========================
 
 const commandList = [
 
@@ -332,44 +454,50 @@ const commandList = [
 
 const commands = {
 
-    help:`
+help:`
 AVAILABLE COMMANDS
 
-whoami        -> about me
-skills        -> technical stack
-projects      -> project modules
-education     -> education details
-experience    -> current work experience
-achievements  -> achievements
-resume        -> resume information
-contact       -> contact details
-socials       -> social links
-june          -> JUNE AI Assistant details
-status        -> system status
-scan          -> scan portfolio modules
-neural        -> neural system info
-system        -> OS details
-matrix        -> activate matrix mode
-matrix off    -> deactivate matrix mode
-boot          -> reboot terminal
-clear         -> clear terminal
-jarvis        -> hidden protocol
-activate      -> activation sequence
+whoami
+skills
+projects
+education
+experience
+achievements
+resume
+contact
+socials
+june
+status
+scan
+neural
+system
+matrix
+matrix off
+boot
+clear
+jarvis
+activate
 `,
 
-    whoami:`
+whoami:`
 IDENTITY PROFILE
 
-Name    : Kaushal Kumar Jha
-Role    : AI / ML Engineer
-Focus   : Artificial Intelligence, Machine Learning, NLP
-Mission : Build intelligent systems and futuristic AI products.
+Name:
+Kaushal Kumar Jha
 
-Currently developing JUNE AI Assistant and building strong AI/ML projects for placements.
+Role:
+AI / ML Engineer
+
+Focus:
+Artificial Intelligence,
+Machine Learning,
+Deep Learning,
+NLP,
+Futuristic AI Systems
 `,
 
-    skills:`
-TECHNICAL SKILL STACK
+skills:`
+TECHNICAL STACK
 
 Programming:
 - Python
@@ -382,70 +510,58 @@ AI / ML:
 - Deep Learning
 - NLP
 - TensorFlow
-- Scikit-learn
 
 Backend:
 - FastAPI
 - Flask
-
-Tools:
-- Git
-- GitHub
-- VS Code
 `,
 
-    education:`
-EDUCATION MODULE
+projects:`
+PROJECT DATABASE
 
-Degree:
-B.Tech Computer Science Engineering
-
-Current Focus:
-AI/ML Engineering, project building, placement preparation, and futuristic AI systems.
-`,
-
-    experience:`
-EXPERIENCE MODULE
-
-Current Experience:
-- Building AI/ML projects
-- Developing JUNE AI Assistant
-- Creating intelligent web-based systems
-- Designing futuristic portfolio interfaces
-`,
-
-    achievements:`
-ACHIEVEMENT LOGS
-
-- Built Crop Recommendation System
-- Built Handwritten Digit Recognition project
-- Developing JUNE AI Assistant
-- Building AI-focused portfolio
-- Learning advanced AI system architecture
-`,
-
-    resume:`
-RESUME ACCESS
-
-Resume is available from the hero section.
-
-Recommended:
-Keep your resume updated with:
 - JUNE AI Assistant
-- Crop Recommendation System
 - Handwritten Digit Recognition
+- Crop Recommendation System
 - AI Terminal Portfolio
 `,
 
-    contact:`
-CONTACT MODULE
+education:`
+EDUCATION MODULE
+
+B.Tech Computer Science Engineering
+`,
+
+experience:`
+CURRENT EXPERIENCE
+
+- AI/ML Systems
+- JUNE AI Assistant
+- Neural Interface Design
+`,
+
+achievements:`
+ACHIEVEMENTS
+
+- Built AI systems
+- Built futuristic portfolio
+- Developing JUNE AI
+`,
+
+resume:`
+RESUME AVAILABLE
+
+Download from hero section.
+`,
+
+contact:`
+CONTACT PROTOCOL
 
 Email:
 jhakaushal.1809@gmail.com
 `,
 
-    socials:`
-SOCIAL LINKS
+socials:`
+SOCIAL CHANNELS
 
 GitHub:
 github.com/Nikk-hub-code
@@ -454,139 +570,42 @@ LinkedIn:
 linkedin.com/in/nikk18
 `,
 
-    june:`
+june:`
 JUNE AI ASSISTANT
 
-JUNE is a futuristic AI assistant inspired by J.A.R.V.I.S.
-
-Core Idea:
-- Understand user queries
-- Process intent
-- Search knowledge
-- Generate intelligent answers
-- Build toward personal AI assistant behavior
-
-Focus Areas:
-- NLP
-- AI reasoning
-- Backend architecture
-- Memory system
-- Futuristic user interface
+Inspired by J.A.R.V.I.S
+with AI reasoning and NLP systems.
 `,
 
-    neural:`
-NEURAL BACKGROUND SYSTEM
-
-Status:
-- Particle nodes active
-- Connection graph rendering
-- Real-time animation enabled
-- AI visual interface synchronized
-`,
-
-    system:`
-KAUSHAL OS v3.0
-
-Interface:
-Advanced AI Portfolio System
-
-Modules:
-- Hero Interface
-- AI Status HUD
-- Interactive Terminal
-- Neural Canvas
-- Matrix Mode
-- Project Database
-`,
-
-    status:`
+status:`
 SYSTEM STATUS
 
 AI CORE        : ONLINE
 ML MODULE      : ACTIVE
 NLP ENGINE     : ACTIVE
-NEURAL CANVAS  : RUNNING
-TERMINAL       : INTERACTIVE
-MATRIX MODE    : AVAILABLE
-PORTFOLIO DB   : CONNECTED
-SYSTEM LOAD    : 98%
+NEURAL SYSTEM  : RUNNING
+`,
+
+system:`
+KAUSHAL OS v3.0
+
+Modules:
+- Hero Interface
+- AI Terminal
+- Neural Background
+- Matrix System
+- Project Database
 `
 };
 
-// PROJECT MODULE OUTPUT
-
-function renderProjects(){
-
-    appendLine(`
-        <div class="project-module">
-            <h4>01 — JUNE AI Assistant</h4>
-            <p>Futuristic AI assistant inspired by J.A.R.V.I.S. focused on intelligent responses, query understanding, and assistant-like behavior.</p>
-            <div class="progress-bar">
-                <div class="progress-fill" style="width:86%"></div>
-            </div>
-            <span class="info-text">Tech: Python • NLP • FastAPI • AI Architecture</span>
-        </div>
-
-        <div class="project-module">
-            <h4>02 — Handwritten Digit Recognition</h4>
-            <p>Machine learning project that predicts handwritten digits using trained image classification models.</p>
-            <div class="progress-bar">
-                <div class="progress-fill" style="width:94%"></div>
-            </div>
-            <span class="info-text">Tech: Python • ML • Neural Networks • Image Processing</span>
-        </div>
-
-        <div class="project-module">
-            <h4>03 — Crop Recommendation System</h4>
-            <p>AI/ML system that recommends suitable crops based on soil and environmental conditions.</p>
-            <div class="progress-bar">
-                <div class="progress-fill" style="width:92%"></div>
-            </div>
-            <span class="info-text">Tech: Python • Scikit-learn • Flask • ML</span>
-        </div>
-
-        <div class="project-module">
-            <h4>04 — AI Terminal Portfolio</h4>
-            <p>Futuristic interactive portfolio with terminal commands, neural background, HUD panels, and cyberpunk UI.</p>
-            <div class="progress-bar">
-                <div class="progress-fill" style="width:88%"></div>
-            </div>
-            <span class="info-text">Tech: HTML • CSS • JavaScript • UI Animation</span>
-        </div>
-    `);
-}
-
-// SCAN COMMAND
-
-async function runScan(){
-
-    const scanLines = [
-
-        "> Scanning portfolio modules...",
-        "> Hero interface detected........ [ ACTIVE ]",
-        "> AI terminal engine detected.... [ ACTIVE ]",
-        "> Project database detected...... [ CONNECTED ]",
-        "> Neural canvas detected......... [ RUNNING ]",
-        "> Recruiter impression level..... [ HIGH ]",
-        "> Scan complete."
-    ];
-
-    for(const line of scanLines){
-
-        await typeLine(
-            line,
-            "success-text",
-            12
-        );
-
-        await sleep(180);
-    }
-}
-
+// =========================
 // MATRIX MODE
+// =========================
 
 const matrixCanvas =
-    document.getElementById("matrix-canvas");
+    document.getElementById(
+        "matrix-canvas"
+    );
 
 const matrixCtx =
     matrixCanvas.getContext("2d");
@@ -611,22 +630,29 @@ window.addEventListener(
 
 function startMatrix(){
 
-    document.body.classList.add("matrix-active");
+    document.body.classList.add(
+        "matrix-active"
+    );
 
     const letters =
-        "01AIJUNEKAUSHALMACHINELEARNINGNEURALNETWORK";
+        "01AIJUNEKAUSHAL";
 
-    const fontSize =
-        16;
+    const fontSize = 16;
 
     const columns =
-        Math.floor(matrixCanvas.width / fontSize);
+        Math.floor(
+            matrixCanvas.width /
+            fontSize
+        );
 
     const drops =
         Array(columns).fill(1);
 
     if(matrixInterval){
-        clearInterval(matrixInterval);
+
+        clearInterval(
+            matrixInterval
+        );
     }
 
     matrixInterval =
@@ -648,7 +674,7 @@ function startMatrix(){
             matrixCtx.font =
                 `${fontSize}px Fira Code`;
 
-            for(let i = 0; i < drops.length; i++){
+            for(let i=0;i<drops.length;i++){
 
                 const text =
                     letters[
@@ -680,15 +706,11 @@ function startMatrix(){
 
 function stopMatrix(){
 
-    document.body.classList.remove("matrix-active");
+    document.body.classList.remove(
+        "matrix-active"
+    );
 
-    if(matrixInterval){
-
-        clearInterval(matrixInterval);
-
-        matrixInterval =
-            null;
-    }
+    clearInterval(matrixInterval);
 
     matrixCtx.clearRect(
         0,
@@ -698,326 +720,305 @@ function stopMatrix(){
     );
 }
 
+// =========================
 // COMMAND HISTORY
+// =========================
 
 let commandHistory = [];
+
 let historyIndex = -1;
 
-// INPUT SUGGESTION
+// =========================
+// SUGGESTIONS
+// =========================
 
-input.addEventListener("input",()=>{
+input.addEventListener(
+    "input",
+    ()=>{
 
-    const value =
-        input.value.trim().toLowerCase();
+        const value =
+            input.value
+            .trim()
+            .toLowerCase();
 
-    if(value === ""){
+        if(value === ""){
+
+            suggestionText.textContent =
+                "none";
+
+            return;
+        }
+
+        const match =
+            commandList.find(cmd =>
+                cmd.startsWith(value)
+            );
 
         suggestionText.textContent =
-            "none";
-
-        return;
+            match || "none";
     }
+);
 
-    const match =
-        commandList.find(cmd =>
-            cmd.startsWith(value)
-        );
+// =========================
+// TERMINAL INPUT
+// =========================
 
-    suggestionText.textContent =
-        match || "none";
-});
+input.addEventListener(
+    "keydown",
+    async e=>{
 
-// TERMINAL COMMAND EXECUTION
+        if(e.key === "Enter"){
 
-input.addEventListener("keydown",async e=>{
+            const cmd =
+                input.value
+                .trim()
+                .toLowerCase();
 
-    if(e.key === "ArrowUp"){
+            if(cmd === ""){
+                return;
+            }
 
-        e.preventDefault();
-
-        if(commandHistory.length > 0){
+            commandHistory.push(cmd);
 
             historyIndex =
-                Math.max(
-                    0,
-                    historyIndex - 1
+                commandHistory.length;
+
+            appendLine(
+                `kaushal@os:~$ ${cmd}`,
+                "command-line"
+            );
+
+            input.value = "";
+
+            suggestionText.textContent =
+                "none";
+
+            input.disabled = true;
+
+            // CLEAR
+
+            if(cmd === "clear"){
+
+                output.innerHTML = "";
+
+                input.disabled = false;
+
+                input.focus();
+
+                return;
+            }
+
+            // BOOT
+
+            if(cmd === "boot"){
+
+                await bootTerminal();
+
+                return;
+            }
+
+            // MATRIX
+
+            if(cmd === "matrix"){
+
+                startMatrix();
+
+                await typeLine(
+                    "> Matrix mode activated.",
+                    "success-text",
+                    12
                 );
 
-            input.value =
-                commandHistory[historyIndex];
-        }
+                input.disabled = false;
 
-        return;
-    }
+                input.focus();
 
-    if(e.key === "ArrowDown"){
+                return;
+            }
 
-        e.preventDefault();
+            // MATRIX OFF
 
-        if(commandHistory.length > 0){
+            if(cmd === "matrix off"){
 
-            historyIndex =
-                Math.min(
-                    commandHistory.length,
-                    historyIndex + 1
+                stopMatrix();
+
+                await typeLine(
+                    "> Matrix mode deactivated.",
+                    "warning-text",
+                    12
                 );
 
-            input.value =
-                commandHistory[historyIndex] || "";
-        }
+                input.disabled = false;
 
-        return;
-    }
+                input.focus();
 
-    if(e.key === "Tab"){
+                return;
+            }
 
-        e.preventDefault();
+            // NORMAL COMMANDS
 
-        const suggestion =
-            suggestionText.textContent;
+            if(commands[cmd]){
 
-        if(
-            suggestion &&
-            suggestion !== "none"
-        ){
-            input.value =
-                suggestion;
-        }
+                await aiThinking();
 
-        return;
-    }
+                await typeBlock(
+                    commands[cmd],
+                    "output-line",
+                    8
+                );
 
-    if(e.key === "Enter"){
+                input.disabled = false;
 
-        const cmd =
-            input.value.trim().toLowerCase();
+                input.focus();
 
-        if(cmd === ""){
-            return;
-        }
+                return;
+            }
 
-        commandHistory.push(cmd);
+            // INVALID
 
-        historyIndex =
-            commandHistory.length;
-
-        appendLine(
-            `kaushal@os:~$ ${cmd}`,
-            "command-line"
-        );
-
-        input.value =
-            "";
-
-        suggestionText.textContent =
-            "none";
-
-        input.disabled =
-            true;
-
-        if(cmd === "clear"){
-
-            output.innerHTML =
-                "";
-
-            input.disabled =
-                false;
-
-            input.focus();
-
-            return;
-        }
-
-        if(cmd === "boot"){
-
-            await bootTerminal();
-
-            return;
-        }
-
-        if(cmd === "projects"){
-
-            await aiThinking();
-
-            renderProjects();
-
-            input.disabled =
-                false;
-
-            input.focus();
-
-            return;
-        }
-
-        if(cmd === "scan"){
-
-            await runScan();
-
-            input.disabled =
-                false;
-
-            input.focus();
-
-            return;
-        }
-
-        if(cmd === "matrix"){
-
-            startMatrix();
+            triggerGlitch();
 
             await typeLine(
-                "> Matrix mode activated.",
-                "success-text",
+                `ERROR: '${cmd}' not found.`,
+                "error-text",
                 12
             );
 
-            input.disabled =
-                false;
+            input.disabled = false;
 
             input.focus();
-
-            return;
         }
-
-        if(cmd === "matrix off"){
-
-            stopMatrix();
-
-            await typeLine(
-                "> Matrix mode deactivated.",
-                "warning-text",
-                12
-            );
-
-            input.disabled =
-                false;
-
-            input.focus();
-
-            return;
-        }
-
-        if(cmd === "jarvis"){
-
-            await typeBlock(
-                `
-> Hidden protocol detected.
-> J.A.R.V.I.S inspiration module unlocked.
-> Sir, the interface is ready.
-                `,
-                "info-text",
-                12
-            );
-
-            input.disabled =
-                false;
-
-            input.focus();
-
-            return;
-        }
-
-        if(cmd === "activate"){
-
-            await typeBlock(
-                `
-> Activation sequence started.
-> Power routing stable.
-> Neural interface synchronized.
-> Kaushal OS is fully activated.
-                `,
-                "success-text",
-                12
-            );
-
-            input.disabled =
-                false;
-
-            input.focus();
-
-            return;
-        }
-
-        if(commands[cmd]){
-
-            await aiThinking();
-
-            await typeBlock(
-                commands[cmd],
-                "output-line",
-                7
-            );
-
-            input.disabled =
-                false;
-
-            input.focus();
-
-            return;
-        }
-
-        triggerGlitch();
-
-        await typeLine(
-            `ERROR: Command '${cmd}' not found.`,
-            "error-text",
-            12
-        );
-
-        await typeLine(
-            "Type 'help' to view available commands.",
-            "warning-text",
-            12
-        );
-
-        input.disabled =
-            false;
-
-        input.focus();
     }
-});
+);
 
+// =========================
 // ROBOT EYES
+// =========================
 
-document.addEventListener("mousemove",e=>{
+document.addEventListener(
+    "mousemove",
+    e=>{
 
-    eyes.forEach(eye=>{
+        eyes.forEach(eye=>{
 
-        const rect =
-            eye.getBoundingClientRect();
+            const rect =
+                eye.getBoundingClientRect();
 
-        const eyeX =
-            rect.left + rect.width / 2;
+            const eyeX =
+                rect.left +
+                rect.width / 2;
 
-        const eyeY =
-            rect.top + rect.height / 2;
+            const eyeY =
+                rect.top +
+                rect.height / 2;
 
-        const dx =
-            e.clientX - eyeX;
+            const dx =
+                e.clientX - eyeX;
 
-        const dy =
-            e.clientY - eyeY;
+            const dy =
+                e.clientY - eyeY;
 
-        const angle =
-            Math.atan2(dy,dx);
+            const angle =
+                Math.atan2(dy,dx);
 
-        const radius =
-            6;
+            const radius = 6;
 
-        eye.style.transform =
-            `
-            translate(
-                ${radius * Math.cos(angle)}px,
-                ${radius * Math.sin(angle)}px
-            )
-            `;
-    });
+            eye.style.transform =
+                `
+                translate(
+                    ${radius * Math.cos(angle)}px,
+                    ${radius * Math.sin(angle)}px
+                )
+                `;
+        });
+    }
+);
+
+// =========================
+// PROJECT HOVER
+// =========================
+
+projectCards.forEach(card=>{
+
+    card.addEventListener(
+        "mouseenter",
+        ()=>{
+
+            card.style.boxShadow =
+                `
+                0 0 60px rgba(0,255,156,.25),
+                0 0 120px rgba(0,234,255,.12)
+                `;
+        }
+    );
+
+    card.addEventListener(
+        "mouseleave",
+        ()=>{
+
+            card.style.boxShadow =
+                `
+                0 0 45px rgba(0,255,156,.18)
+                `;
+        }
+    );
 });
 
-// NEURAL NETWORK CANVAS
+// =========================
+// REVEAL
+// =========================
+
+const revealElements =
+    document.querySelectorAll(
+        ".project-card, .contact-card"
+    );
+
+function revealOnScroll(){
+
+    const triggerBottom =
+        window.innerHeight * 0.85;
+
+    revealElements.forEach(element=>{
+
+        const top =
+            element.getBoundingClientRect().top;
+
+        if(top < triggerBottom){
+
+            element.style.opacity = "1";
+
+            element.style.transform =
+                "translateY(0)";
+        }
+    });
+}
+
+revealElements.forEach(element=>{
+
+    element.style.opacity = "0";
+
+    element.style.transform =
+        "translateY(60px)";
+
+    element.style.transition =
+        "all .8s ease";
+});
+
+window.addEventListener(
+    "scroll",
+    revealOnScroll
+);
+
+revealOnScroll();
+
+// =========================
+// NEURAL NETWORK
+// =========================
 
 const canvas =
-    document.getElementById("neural-canvas");
+    document.getElementById(
+        "neural-canvas"
+    );
 
 const ctx =
     canvas.getContext("2d");
@@ -1037,8 +1038,7 @@ function resizeCanvas(){
 
 function createNodes(){
 
-    nodes =
-        [];
+    nodes = [];
 
     const nodeCount =
         Math.floor(
@@ -1085,29 +1085,23 @@ function drawNodes(){
 
     for(let i = 0; i < nodes.length; i++){
 
-        const nodeA =
-            nodes[i];
+        const nodeA = nodes[i];
 
-        nodeA.x +=
-            nodeA.vx;
-
-        nodeA.y +=
-            nodeA.vy;
+        nodeA.x += nodeA.vx;
+        nodeA.y += nodeA.vy;
 
         if(
             nodeA.x < 0 ||
             nodeA.x > canvas.width
         ){
-            nodeA.vx *=
-                -1;
+            nodeA.vx *= -1;
         }
 
         if(
             nodeA.y < 0 ||
             nodeA.y > canvas.height
         ){
-            nodeA.vy *=
-                -1;
+            nodeA.vy *= -1;
         }
 
         ctx.beginPath();
@@ -1125,10 +1119,9 @@ function drawNodes(){
 
         ctx.fill();
 
-        for(let j = i + 1; j < nodes.length; j++){
+        for(let j=i+1;j<nodes.length;j++){
 
-            const nodeB =
-                nodes[j];
+            const nodeB = nodes[j];
 
             const dx =
                 nodeA.x - nodeB.x;
@@ -1138,8 +1131,7 @@ function drawNodes(){
 
             const distance =
                 Math.sqrt(
-                    dx * dx +
-                    dy * dy
+                    dx*dx + dy*dy
                 );
 
             if(distance < 130){
@@ -1162,15 +1154,16 @@ function drawNodes(){
                 ctx.strokeStyle =
                     `rgba(0,234,255,${opacity * .22})`;
 
-                ctx.lineWidth =
-                    1;
+                ctx.lineWidth = 1;
 
                 ctx.stroke();
             }
         }
     }
 
-    requestAnimationFrame(drawNodes);
+    requestAnimationFrame(
+        drawNodes
+    );
 }
 
 window.addEventListener(
