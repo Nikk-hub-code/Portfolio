@@ -5,66 +5,155 @@
 
     <meta charset="UTF-8" />
 
-    <meta name="viewport"
-        content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <title>Kaushal OS | AI Portfolio</title>
 
-    <link rel="icon"
-        href="./favicon.ico">
+    <link rel="icon" href="./favicon.ico">
 
-    <link
-        href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;700&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;700&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet"
-        href="style.css">
+    <link rel="stylesheet" href="style.css">
 
 </head>
 
 <body>
 
-    <!-- MATRIX CANVAS -->
+    <!-- ========================= -->
+    <!-- SCROLL PROGRESS -->
+    <!-- ========================= -->
+
+    <div class="scroll-progress">
+
+        <div class="scroll-progress-bar" id="scroll-progress-bar"></div>
+
+    </div>
+
+    <!-- ========================= -->
+    <!-- NAVBAR -->
+    <!-- ========================= -->
+
+    <nav class="navbar" id="navbar">
+
+        <div class="nav-logo">
+
+            KAUSHAL OS v3.0
+
+        </div>
+
+        <div class="nav-links">
+
+            <a href="#home">
+                HOME
+            </a>
+
+            <a href="#terminal-section">
+                TERMINAL
+            </a>
+
+            <a href="#projects">
+                PROJECTS
+            </a>
+
+            <a href="#contact">
+                CONTACT
+            </a>
+
+        </div>
+
+    </nav>
+
+    <!-- ========================= -->
+    <!-- MATRIX -->
+    <!-- ========================= -->
+
     <canvas id="matrix-canvas"></canvas>
 
+    <!-- ========================= -->
     <!-- SCAN -->
+    <!-- ========================= -->
+
     <div class="scan-line"></div>
 
+    <!-- ========================= -->
     <!-- GRID -->
+    <!-- ========================= -->
+
     <div class="bg-grid"></div>
 
+    <!-- ========================= -->
     <!-- VIGNETTE -->
+    <!-- ========================= -->
+
     <div class="vignette"></div>
 
+    <!-- ========================= -->
     <!-- CURSOR -->
+    <!-- ========================= -->
+
     <div class="cursor-glow"></div>
 
-    <!-- NEURAL CANVAS -->
+    <!-- ========================= -->
+    <!-- NEURAL -->
+    <!-- ========================= -->
+
     <canvas id="neural-canvas"></canvas>
 
+    <!-- ========================= -->
     <!-- ORBS -->
+    <!-- ========================= -->
+
     <div class="orb orb-1"></div>
     <div class="orb orb-2"></div>
     <div class="orb orb-3"></div>
 
+    <!-- ========================= -->
     <!-- HERO -->
-    <section class="os-hero">
+    <!-- ========================= -->
+
+    <section class="os-hero" id="home">
 
         <div class="hero-frame">
 
+            <!-- HUD CORNERS -->
+
+            <div class="corner corner-top-left"></div>
+            <div class="corner corner-top-right"></div>
+            <div class="corner corner-bottom-left"></div>
+            <div class="corner corner-bottom-right"></div>
+
+            <!-- SIDE HUD -->
+
+            <div class="hud-side hud-left">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+
+            <div class="hud-side hud-right">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+
+            <!-- SCAN MARKS -->
+
+            <div class="scan-mark scan-1"></div>
+            <div class="scan-mark scan-2"></div>
+
             <!-- TOP BAR -->
+
             <div class="top-bar">
 
-                <div class="top-left">
+                <!-- <div class="top-left">
                     KAUSHAL OS v3.0
-                </div>
+                </div> -->
 
                 <div class="top-center">
                     ADVANCED AI INTERFACE
                 </div>
 
-                <div class="top-right"
-                    id="system-time">
+                <div class="top-right" id="system-time">
 
                     SYSTEM TIME: --:--:--
 
@@ -73,9 +162,11 @@
             </div>
 
             <!-- HERO LAYOUT -->
+
             <div class="hero-layout">
 
                 <!-- LEFT -->
+
                 <div class="hero-left">
 
                     <div class="system-tag">
@@ -91,11 +182,15 @@
                     </h1>
 
                     <h2 class="hero-role">
+
                         <span id="typing-text"></span>
+
                     </h2>
 
                     <div class="hero-subline">
+
                         [ BUILDING FUTURISTIC AI SYSTEMS ]
+
                     </div>
 
                     <p class="hero-desc">
@@ -109,7 +204,8 @@
 
                     </p>
 
-                    <!-- TECH STACK -->
+                    <!-- TECH -->
+
                     <div class="tech-stack">
 
                         <span>🐍 Python</span>
@@ -127,10 +223,10 @@
                     </div>
 
                     <!-- BUTTONS -->
+
                     <div class="hero-actions">
 
-                        <a href="#terminal-section"
-                            class="primary-btn">
+                        <a href="#terminal-section" class="primary-btn">
 
                             <div>
                                 >_ INITIALIZE SYSTEM
@@ -142,8 +238,7 @@
 
                         </a>
 
-                        <a href="#terminal-section"
-                            class="secondary-btn">
+                        <a href="#projects" class="secondary-btn">
 
                             <div>
                                 ⬡ VIEW PROJECTS
@@ -158,24 +253,22 @@
                     </div>
 
                     <!-- LINKS -->
+
                     <div class="small-actions">
 
-                        <a href="resume.pdf"
-                            target="_blank">
+                        <a href="resume.pdf" target="_blank">
 
                             📄 RESUME
 
                         </a>
 
-                        <a href="https://github.com/Nikk-hub-code"
-                            target="_blank">
+                        <a href="https://github.com/Nikk-hub-code" target="_blank">
 
                             GITHUB
 
                         </a>
 
-                        <a href="https://linkedin.com/in/nikk18"
-                            target="_blank">
+                        <a href="https://linkedin.com/in/nikk18" target="_blank">
 
                             LINKEDIN
 
@@ -184,6 +277,7 @@
                     </div>
 
                     <!-- BOOT -->
+
                     <div class="boot-box">
 
                         <div>
@@ -211,9 +305,11 @@
                 </div>
 
                 <!-- RIGHT -->
+
                 <div class="hero-right">
 
                     <!-- STATUS -->
+
                     <div class="hud-card status-card">
 
                         <div class="card-line"></div>
@@ -250,6 +346,7 @@
                     </div>
 
                     <!-- AI VISUAL -->
+
                     <div class="ai-visual">
 
                         <div class="ring ring-1"></div>
@@ -271,6 +368,7 @@
                     </div>
 
                     <!-- FOCUS -->
+
                     <div class="hud-card focus-card">
 
                         <div class="card-line"></div>
@@ -291,9 +389,11 @@
             </div>
 
             <!-- FLOOR -->
+
             <div class="cyber-floor"></div>
 
             <!-- SCROLL -->
+
             <div class="scroll-indicator">
 
                 <div class="scroll-arrow"></div>
@@ -308,9 +408,11 @@
 
     </section>
 
+    <!-- ========================= -->
     <!-- TERMINAL -->
-    <section class="layout"
-        id="terminal-section">
+    <!-- ========================= -->
+
+    <section class="layout" id="terminal-section">
 
         <div class="terminal">
 
@@ -342,14 +444,14 @@
 
             </div>
 
-            <div class="output"
-                id="output"></div>
+            <div class="output" id="output"></div>
 
-            <div class="suggestion-line"
-                id="suggestion-line">
+            <div class="suggestion-line" id="suggestion-line">
 
                 suggestion:
-                <span id="suggestion-text">none</span>
+                <span id="suggestion-text">
+                    none
+                </span>
 
             </div>
 
@@ -359,11 +461,7 @@
                     kaushal@os:~$
                 </span>
 
-                <input type="text"
-                    id="command"
-                    autocomplete="off"
-                    spellcheck="false"
-                    disabled />
+                <input type="text" id="command" autocomplete="off" spellcheck="false" disabled />
 
                 <span class="cursor">
                     █
@@ -373,7 +471,8 @@
 
         </div>
 
-        <!-- SIDE -->
+        <!-- ROBOT -->
+
         <div class="side-panel">
 
             <div class="robot">
@@ -400,6 +499,308 @@
         </div>
 
     </section>
+
+    <!-- ========================= -->
+    <!-- PROJECTS -->
+    <!-- ========================= -->
+
+    <section class="projects-section" id="projects">
+
+        <div class="section-header">
+
+            <div class="section-tag">
+                // AI PROJECT DATABASE
+            </div>
+
+            <h2>
+                FUTURISTIC PROJECT MODULES
+            </h2>
+
+            <p>
+
+                Advanced AI/ML systems and intelligent architectures
+                developed for real-world applications.
+
+            </p>
+
+        </div>
+
+        <div class="projects-grid">
+
+            <!-- PROJECT 1 -->
+
+            <div class="project-card">
+
+                <div class="project-glow"></div>
+
+                <div class="project-top">
+
+                    <div class="project-status">
+                        ACTIVE ●
+                    </div>
+
+                    <div class="project-id">
+                        AI-001
+                    </div>
+
+                </div>
+
+                <h3>
+                    JUNE AI ASSISTANT
+                </h3>
+
+                <p class="project-desc">
+
+                    Futuristic AI assistant inspired by J.A.R.V.I.S
+                    with intelligent response generation,
+                    query understanding, and advanced AI architecture.
+
+                </p>
+
+                <div class="project-tech">
+
+                    <span>Python</span>
+                    <span>NLP</span>
+                    <span>FastAPI</span>
+                    <span>AI Systems</span>
+
+                </div>
+
+            </div>
+
+            <!-- PROJECT 2 -->
+
+            <div class="project-card">
+
+                <div class="project-glow"></div>
+
+                <div class="project-top">
+
+                    <div class="project-status">
+                        ONLINE ●
+                    </div>
+
+                    <div class="project-id">
+                        ML-002
+                    </div>
+
+                </div>
+
+                <h3>
+                    HANDWRITTEN DIGIT RECOGNITION
+                </h3>
+
+                <p class="project-desc">
+
+                    Deep learning based image recognition system
+                    capable of detecting and predicting handwritten digits.
+
+                </p>
+
+                <div class="project-tech">
+
+                    <span>Python</span>
+                    <span>TensorFlow</span>
+                    <span>CNN</span>
+                    <span>Deep Learning</span>
+
+                </div>
+
+            </div>
+
+            <!-- PROJECT 3 -->
+
+            <div class="project-card">
+
+                <div class="project-glow"></div>
+
+                <div class="project-top">
+
+                    <div class="project-status">
+                        STABLE ●
+                    </div>
+
+                    <div class="project-id">
+                        ML-003
+                    </div>
+
+                </div>
+
+                <h3>
+                    CROP RECOMMENDATION SYSTEM
+                </h3>
+
+                <p class="project-desc">
+
+                    AI powered recommendation engine
+                    that predicts suitable crops.
+
+                </p>
+
+                <div class="project-tech">
+
+                    <span>Machine Learning</span>
+                    <span>Flask</span>
+                    <span>Scikit-learn</span>
+                    <span>Python</span>
+
+                </div>
+
+            </div>
+
+            <!-- PROJECT 4 -->
+
+            <div class="project-card">
+
+                <div class="project-glow"></div>
+
+                <div class="project-top">
+
+                    <div class="project-status">
+                        RUNNING ●
+                    </div>
+
+                    <div class="project-id">
+                        UI-004
+                    </div>
+
+                </div>
+
+                <h3>
+                    AI TERMINAL PORTFOLIO
+                </h3>
+
+                <p class="project-desc">
+
+                    Cinematic futuristic portfolio interface
+                    with neural systems and AI terminal.
+
+                </p>
+
+                <div class="project-tech">
+
+                    <span>HTML</span>
+                    <span>CSS</span>
+                    <span>JavaScript</span>
+                    <span>UI Animation</span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- ========================= -->
+    <!-- CONTACT -->
+    <!-- ========================= -->
+
+    <section class="contact-section" id="contact">
+
+        <div class="section-header">
+
+            <div class="section-tag">
+                // CONTACT PROTOCOL
+            </div>
+
+            <h2>
+                COMMUNICATION CHANNEL
+            </h2>
+
+            <p>
+
+                Connect with the AI system through the channels below.
+
+            </p>
+
+        </div>
+
+        <div class="contact-grid">
+
+            <!-- EMAIL -->
+
+            <div class="contact-card">
+
+                <div class="contact-icon">
+                    ✉
+                </div>
+
+                <h3>
+                    EMAIL
+                </h3>
+
+                <p>
+                    jhakaushal.1809@gmail.com
+                </p>
+
+            </div>
+
+            <!-- GITHUB -->
+
+            <div class="contact-card">
+
+                <div class="contact-icon">
+                    ⬡
+                </div>
+
+                <h3>
+                    GITHUB
+                </h3>
+
+                <p>
+                    github.com/Nikk-hub-code
+                </p>
+
+            </div>
+
+            <!-- LINKEDIN -->
+
+            <div class="contact-card">
+
+                <div class="contact-icon">
+                    ◎
+                </div>
+
+                <h3>
+                    LINKEDIN
+                </h3>
+
+                <p>
+                    linkedin.com/in/nikk18
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- ========================= -->
+    <!-- FOOTER -->
+    <!-- ========================= -->
+
+    <footer class="footer">
+
+        <div class="footer-line"></div>
+
+        <div class="footer-content">
+
+            <div>
+                KAUSHAL OS SYSTEM ONLINE
+            </div>
+
+            <div>
+                AI CORE RUNNING
+            </div>
+
+            <div>
+                NEURAL NETWORK CONNECTED
+            </div>
+
+        </div>
+
+    </footer>
 
     <script src="script.js"></script>
 
