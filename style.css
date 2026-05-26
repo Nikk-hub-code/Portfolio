@@ -3096,3 +3096,76 @@ body::after{
 .hero-frame{
     position:relative;
 }
+
+/* ======================================== */
+/* DEPLOYMENT OVERFLOW FIX */
+/* ======================================== */
+
+html,
+body{
+    overflow-x:hidden;
+    max-width:100%;
+}
+
+/* ========================= */
+/* ENVIRONMENT SAFE LIMIT */
+/* ========================= */
+
+body::before,
+body::after{
+    max-width:100vw;
+    overflow:hidden;
+}
+
+/* ========================= */
+/* HERO SAFE OVERFLOW */
+/* ========================= */
+
+.hero-frame{
+    overflow:hidden;
+}
+
+/* ========================= */
+/* REMOVE EXTRA BOTTOM SPACE */
+/* ========================= */
+
+.footer{
+    margin-bottom:0;
+    padding-bottom:40px;
+}
+
+/* ========================= */
+/* FIX CYBER FLOOR */
+/* ========================= */
+
+.cyber-floor{
+
+    width:120%;
+
+    left:50%;
+
+    bottom:-80px;
+
+    overflow:hidden;
+}
+
+/* ========================= */
+/* PREVENT DIAGONAL OVERFLOW */
+/* ========================= */
+
+.projects-section,
+.contact-section,
+.footer,
+.layout,
+.os-hero{
+    position:relative;
+    overflow:hidden;
+}
+
+/* ========================= */
+/* FIX RANDOM OVERFLOW */
+/* ========================= */
+
+*{
+    max-width:100%;
+}
