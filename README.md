@@ -98,3 +98,5 @@ terminal-portfolio/
 ├── script.js         # Terminal logic & robot behavior
 ├── favicon.ico       # Custom portfolio favicon
 └── README.md         # Project documentation
+
+# Temporarily not working on low resolution device like mobile phones
