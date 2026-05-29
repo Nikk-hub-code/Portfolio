@@ -100,4 +100,4 @@ terminal-portfolio/
 └── README.md         # Project documentation
 ```
 
-# Temporarily not working on low resolution device like mobile phones
+## Temporarily not working on low resolution device like mobile phones
