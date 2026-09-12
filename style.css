@@ -1662,6 +1662,8 @@ input{
     font-size:16px;
 
     font-family:'Fira Code', monospace;
+
+    caret-color:#00ff9c;
 }
 
 .cursor{
@@ -1678,6 +1680,10 @@ input{
 }
 
 .suggestion-line{
+    display:flex;
+    align-items:center;
+    gap:8px;
+
     padding:10px 20px;
 
     border-top:1px solid rgba(0,255,156,.08);
@@ -1691,6 +1697,32 @@ input{
 
     position:relative;
     z-index:2;
+
+    cursor:pointer;
+    user-select:none;
+    transition:background .2s ease;
+}
+
+.suggestion-line:hover{
+    background:rgba(0,255,156,.08);
+}
+
+.suggestion-hint{
+    font-size:12px;
+    color:rgba(216,255,246,.5);
+    margin-left:auto;
+}
+
+.terminal-link{
+    color:#00eaff;
+    text-decoration:underline;
+    text-underline-offset:3px;
+    transition:.2s;
+}
+
+.terminal-link:hover{
+    color:#00ff9c;
+    text-shadow:0 0 10px rgba(0,255,156,.8);
 }
 
 .command-line{
@@ -2965,6 +2997,85 @@ body::after{
 }
 
 /* ========================= */
+/* ROBOT REACTIVE STATES */
+/* ========================= */
+
+.robot.thinking .eye{
+    background:#ffbd2e;
+    box-shadow:
+        0 0 25px rgba(255,189,46,.95),
+        0 0 50px rgba(255,189,46,.6);
+    animation:thinkingEye 0.35s ease-in-out infinite alternate;
+}
+
+.robot.thinking .robot-core{
+    background:
+        radial-gradient(
+            circle,
+            rgba(255,189,46,1),
+            rgba(255,189,46,.4),
+            transparent 70%
+        );
+    box-shadow:
+        0 0 35px rgba(255,189,46,.9),
+        0 0 75px rgba(255,189,46,.5);
+    animation:corePulse 0.5s ease-in-out infinite alternate;
+}
+
+@keyframes thinkingEye{
+    from{ transform:scale(0.85); }
+    to{ transform:scale(1.2); }
+}
+
+.robot.success .eye{
+    background:#00ff9c;
+    box-shadow:
+        0 0 30px rgba(0,255,156,1),
+        0 0 60px rgba(0,255,156,.7);
+}
+
+.robot.success .robot-core{
+    background:
+        radial-gradient(
+            circle,
+            rgba(0,255,156,1),
+            rgba(0,234,255,.6),
+            transparent 70%
+        );
+    box-shadow:
+        0 0 45px rgba(0,255,156,1),
+        0 0 90px rgba(0,255,156,.6);
+}
+
+.robot.error .eye{
+    background:#ff5f56;
+    box-shadow:
+        0 0 30px rgba(255,95,86,1),
+        0 0 60px rgba(255,95,86,.8);
+    animation:glitchEye 0.15s ease-in-out infinite;
+}
+
+.robot.error .robot-core{
+    background:
+        radial-gradient(
+            circle,
+            rgba(255,95,86,1),
+            rgba(255,95,86,.4),
+            transparent 70%
+        );
+    box-shadow:
+        0 0 40px rgba(255,95,86,1),
+        0 0 80px rgba(255,95,86,.6);
+    animation:glitchEye 0.15s ease-in-out infinite;
+}
+
+@keyframes glitchEye{
+    0%, 100%{ transform:translate(0, 0); }
+    25%{ transform:translate(-3px, 2px); }
+    75%{ transform:translate(3px, -2px); }
+}
+
+/* ========================= */
 /* RESPONSIVE */
 /* ========================= */
 
@@ -3097,75 +3208,54 @@ body::after{
     position:relative;
 }
 
-/* ======================================== */
-/* DEPLOYMENT OVERFLOW FIX */
-/* ======================================== */
-
-html,
-body{
-    overflow-x:hidden;
-    max-width:100%;
-}
-
 /* ========================= */
-/* ENVIRONMENT SAFE LIMIT */
+/* SCROLL INDICATOR FIX */
 /* ========================= */
 
-body::before,
-body::after{
-    max-width:100vw;
-    overflow:hidden;
-}
+.scroll-indicator{
+    position:absolute;
 
-/* ========================= */
-/* HERO SAFE OVERFLOW */
-/* ========================= */
-
-.hero-frame{
-    overflow:hidden;
-}
-
-/* ========================= */
-/* REMOVE EXTRA BOTTOM SPACE */
-/* ========================= */
-
-.footer{
-    margin-bottom:0;
-    padding-bottom:40px;
-}
-
-/* ========================= */
-/* FIX CYBER FLOOR */
-/* ========================= */
-
-.cyber-floor{
-
-    width:120%;
-
+    bottom:30px;
     left:50%;
 
-    bottom:-80px;
+    transform:translateX(-50%);
 
-    overflow:hidden;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+
+    gap:10px;
+
+    z-index:20;
+
+    color:#00eaff;
+
+    letter-spacing:3px;
+
+    text-align:center;
+}
+
+.scroll-arrow{
+    width:22px;
+    height:22px;
+
+    border-right:2px solid #00ff9c;
+    border-bottom:2px solid #00ff9c;
+
+    transform:rotate(45deg);
 }
 
 /* ========================= */
-/* PREVENT DIAGONAL OVERFLOW */
+/* HIDE NAVBAR BELOW LAPTOP */
 /* ========================= */
 
-.projects-section,
-.contact-section,
-.footer,
-.layout,
-.os-hero{
-    position:relative;
-    overflow:hidden;
-}
+@media(max-width:1024px){
 
-/* ========================= */
-/* FIX RANDOM OVERFLOW */
-/* ========================= */
+    .navbar{
+        display:none;
+    }
 
-*{
-    max-width:100%;
+    .hero-frame{
+        padding-top:80px;
+    }
 }
