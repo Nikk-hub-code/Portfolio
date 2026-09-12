@@ -17,6 +17,9 @@ const systemTime =
 const eyes =
     document.querySelectorAll(".eye");
 
+const robot =
+    document.querySelector(".robot");
+
 const cursorGlow =
     document.querySelector(".cursor-glow");
 
@@ -36,6 +39,67 @@ const scrollProgressBar =
     document.getElementById("scroll-progress-bar");
 
 input.disabled = true;
+
+// =========================
+// ROBOT REACTIVE STATES
+// =========================
+
+let robotStateTimeout = null;
+
+function setRobotState(state, duration = 0){
+    if(!robot) return;
+
+    if(robotStateTimeout){
+        clearTimeout(robotStateTimeout);
+        robotStateTimeout = null;
+    }
+
+    robot.classList.remove("thinking", "success", "error");
+
+    if(state && state !== "idle"){
+        robot.classList.add(state);
+
+        if(duration > 0){
+            robotStateTimeout = setTimeout(()=>{
+                robot.classList.remove("thinking", "success", "error");
+            }, duration);
+        }
+    }
+}
+
+// =========================
+// WEB SPEECH API (VOICE)
+// =========================
+
+let voiceEnabled = false;
+
+function speak(text){
+    if(!voiceEnabled || !("speechSynthesis" in window)) return;
+
+    try{
+        window.speechSynthesis.cancel();
+        const cleanText = text
+            .replace(/<[^>]*>/g, " ")
+            .replace(/[>\-_#*~|\[\]=+]/g, " ")
+            .replace(/https?:\/\/\S+/g, "")
+            .replace(/\s+/g, " ")
+            .trim();
+
+        if(!cleanText) return;
+
+        const utterance = new SpeechSynthesisUtterance(cleanText);
+        utterance.rate = 1.05;
+        utterance.pitch = 1.0;
+
+        const voices = window.speechSynthesis.getVoices();
+        const preferredVoice = voices.find(v => v.lang.startsWith("en"));
+        if(preferredVoice) utterance.voice = preferredVoice;
+
+        window.speechSynthesis.speak(utterance);
+    }catch(err){
+        console.warn("Speech synthesis error:", err);
+    }
+}
 
 // =========================
 // SYSTEM TIME
@@ -67,8 +131,8 @@ updateSystemTime();
 // =========================
 
 const roles = [
-
-    "AI / ML ENGINEER"
+    "AI / ML ENGINEER",
+    "PYTHON DEVELOPER",
 ];
 
 let roleIndex = 0;
@@ -233,7 +297,7 @@ function appendLine(
 async function typeLine(
     text,
     className = "output-line",
-    speed = 15
+    speed = 10
 ){
 
     const div =
@@ -244,9 +308,16 @@ async function typeLine(
 
     output.appendChild(div);
 
+    // If string contains HTML (links or styled spans), render directly to preserve tags
+    if(text.includes("<") && text.includes(">")){
+        div.innerHTML = text;
+        scrollOutput();
+        return div;
+    }
+
     for(let i = 0; i < text.length; i++){
 
-        div.innerHTML += text[i];
+        div.textContent += text[i];
 
         scrollOutput();
 
@@ -259,7 +330,7 @@ async function typeLine(
 async function typeBlock(
     text,
     className = "output-line",
-    speed = 8
+    speed = 4
 ){
 
     const lines =
@@ -277,25 +348,17 @@ async function typeBlock(
 
 async function aiThinking(){
 
-    const steps = [
+    setRobotState("thinking");
 
-        "> Analyzing command...",
-
-        "> Accessing neural memory...",
-
-        "> Building response..."
-    ];
-
-    for(const step of steps){
-
-        await typeLine(
-            step,
-            "info-text",
-            10
+    const thinkingLine =
+        appendLine(
+            "> Accessing neural core...",
+            "info-text"
         );
 
-        await sleep(250);
-    }
+    await sleep(240);
+
+    thinkingLine.remove();
 }
 
 function triggerGlitch(){
@@ -320,6 +383,8 @@ function triggerGlitch(){
 async function bootTerminal(){
 
     input.disabled = true;
+
+    setRobotState("thinking");
 
     suggestionText.textContent =
         "none";
@@ -379,7 +444,7 @@ async function bootTerminal(){
             12
         );
 
-        await sleep(180);
+        await sleep(150);
     }
 
     appendLine(
@@ -397,24 +462,42 @@ async function bootTerminal(){
             <span class="info-text">
                 'help'
             </span>
-            to see available commands.
-
-            <br>
-
-            Try:
+            to see all available commands. Press
             <span class="info-text">
-                matrix
+                [Tab ↹]
+            </span>
+            to autocomplete.
+
+            <br><br>
+
+            Recommended queries:
+            <span class="info-text">
+                whoami
             </span>,
             <span class="info-text">
                 projects
             </span>,
             <span class="info-text">
-                status
+                skills
+            </span>,
+            <span class="info-text">
+                jarvis
+            </span>,
+            <span class="info-text">
+                scan
+            </span>,
+            <span class="info-text">
+                matrix
+            </span>,
+            <span class="info-text">
+                voice on
             </span>
 
         </div>
         `
     );
+
+    setRobotState("success", 1200);
 
     input.disabled = false;
 
@@ -440,161 +523,263 @@ const commandList = [
     "contact",
     "socials",
     "june",
+    "jarvis",
     "status",
     "scan",
     "neural",
+    "activate",
     "system",
     "matrix",
     "matrix off",
-    "clear",
+    "voice on",
+    "voice off",
     "boot",
-    "jarvis",
-    "activate"
+    "clear"
 ];
+
+const commandAliases = {
+    "cls": "clear",
+    "about": "whoami",
+    "email": "contact",
+    "github": "socials",
+    "linkedin": "socials",
+    "ls": "help",
+    "dir": "help",
+    "voice": "voice on"
+};
 
 const commands = {
 
 help:`
-AVAILABLE COMMANDS
-
-whoami
-skills
-projects
-education
-experience
-achievements
-resume
-contact
-socials
-june
-status
-scan
-neural
-system
-matrix
-matrix off
-boot
-clear
-jarvis
-activate
+==========================================
+AVAILABLE SYSTEM COMMANDS
+==========================================
+whoami       - Developer identity profile
+skills       - Technical stack & capabilities
+projects     - Featured AI/ML modules
+education    - Academic background
+experience   - Professional learning path
+achievements - Highlights & milestones
+resume       - View & download Resume (PDF)
+contact      - Communication protocol & email
+socials      - GitHub & LinkedIn channels
+june         - JUNE AI assistant overview
+jarvis       - Autonomous voice/AI protocol
+status       - Real-time AI subsystem health
+scan         - Run full system diagnostic scan
+neural       - Neural network matrix info
+activate     - Trigger system overdrive state
+system       - Kaushal OS v3.0 telemetry
+matrix       - Engage cyberpunk matrix rain
+matrix off   - Disengage matrix rain
+voice on     - Enable voice synthesis (Web Speech API)
+voice off    - Disable voice synthesis
+boot         - Rerun terminal boot sequence
+clear        - Clear the terminal screen
+==========================================
+Tip: Press [Tab ↹] or click suggestion to autocomplete!
 `,
 
 whoami:`
+==========================================
 IDENTITY PROFILE
-
-Name:
-Kaushal Kumar Jha
-
-Role:
-AI / ML Engineer
-
-Focus:
-Artificial Intelligence,
-Machine Learning,
-Deep Learning,
-NLP,
-Futuristic AI Systems
+==========================================
+Name   : Kaushal Kumar Jha
+Role   : AI / ML Engineer
+Focus  : Artificial Intelligence, Deep Learning,
+         Natural Language Processing (NLP),
+         Autonomous Intelligent Systems
+Status : Ready to build futuristic technologies.
+==========================================
 `,
 
 skills:`
-TECHNICAL STACK
+==========================================
+TECHNICAL STACK & CAPABILITIES
+==========================================
+[ Languages ]
+  • Python, JavaScript, HTML5, CSS3
 
-Programming:
-- Python
-- JavaScript
-- HTML
-- CSS
+[ AI / Machine Learning & Deep Learning ]
+  • TensorFlow, PyTorch, Scikit-learn, CNN,
+  • Natural Language Processing (NLP), Computer Vision
 
-AI / ML:
-- Machine Learning
-- Deep Learning
-- NLP
-- TensorFlow
+[ Backend & Frameworks ]
+  • FastAPI, Flask, REST APIs
 
-Backend:
-- FastAPI
-- Flask
+[ Architecture & Concepts ]
+  • Intelligent Agents, Neural Networks,
+  • DOM Manipulation, Web Speech API, UI/UX
+==========================================
 `,
 
 projects:`
-PROJECT DATABASE
+==========================================
+FEATURED PROJECT MODULES
+==========================================
+1. JUNE AI ASSISTANT [AI-001]
+   • Autonomous AI assistant inspired by J.A.R.V.I.S
+   • Intelligent query processing, NLP reasoning & FastAPI
+   • Tech: Python, NLP, FastAPI, AI Systems
 
-- JUNE AI Assistant
-- Handwritten Digit Recognition
-- Crop Recommendation System
-- AI Terminal Portfolio
+2. HANDWRITTEN DIGIT RECOGNITION [ML-002]
+   • Deep learning computer vision neural network
+   • Tech: Python, TensorFlow, CNN, OpenCV
+
+3. CROP RECOMMENDATION SYSTEM [ML-003]
+   • Machine learning recommendation engine for agriculture
+   • Tech: Python, Scikit-learn, Flask, ML Algorithms
+
+4. KAUSHAL AI TERMINAL PORTFOLIO [UI-004]
+   • Cyberpunk terminal OS with neural network visualizer
+   • Tech: HTML5, CSS3, Vanilla JS, Web Speech API
+==========================================
+Tip: Scroll down to #projects for detailed view!
 `,
 
 education:`
+==========================================
 EDUCATION MODULE
-
-B.Tech Computer Science Engineering
+==========================================
+Degree : B.Tech in Computer Science & Engineering
+Focus  : Artificial Intelligence & Machine Learning
+Status : Undergraduate Scholar
+==========================================
 `,
 
 experience:`
-CURRENT EXPERIENCE
-
-- AI/ML Systems
-- JUNE AI Assistant
-- Neural Interface Design
+==========================================
+LEARNING & DEVELOPMENT JOURNEY
+==========================================
+• AI/ML Systems Engineering & Prototyping
+• JUNE AI Assistant: Architecture & NLP Core
+• Neural Interface Design & Interactive Web Systems
+• Deep Learning research in CNNs and Transformers
+==========================================
 `,
 
 achievements:`
-ACHIEVEMENTS
-
-- Built AI systems
-- Built futuristic portfolio
-- Developing JUNE AI
+==========================================
+ACHIEVEMENTS & MILESTONES
+==========================================
+★ Developed autonomous AI assistant JUNE
+★ Built deep learning models with high predictive accuracy
+★ Engineered futuristic cyberpunk terminal portfolio
+★ Active open-source development on GitHub
+==========================================
 `,
 
 resume:`
-RESUME AVAILABLE
-
-Download from hero section.
+==========================================
+RESUME ACCESS PROTOCOL
+==========================================
+Document: Kaushal Kumar Jha - Resume (PDF)
+Link    : <a href="./Resume.pdf" target="_blank" download class="terminal-link">Download / Open Resume (PDF)</a>
+==========================================
 `,
 
 contact:`
-CONTACT PROTOCOL
-
-Email:
-jhakaushal.1809@gmail.com
+==========================================
+COMMUNICATION PROTOCOL
+==========================================
+Email  : <a href="mailto:jhakaushal.1809@gmail.com" class="terminal-link">jhakaushal.1809@gmail.com</a>
+Status : Open for AI/ML Opportunities & Research
+==========================================
 `,
 
 socials:`
-SOCIAL CHANNELS
-
-GitHub:
-github.com/Nikk-hub-code
-
-LinkedIn:
-linkedin.com/in/nikk18
+==========================================
+EXTERNAL PROTOCOLS & SOCIALS
+==========================================
+GitHub   : <a href="https://github.com/Nikk-hub-code" target="_blank" rel="noopener noreferrer" class="terminal-link">github.com/Nikk-hub-code</a>
+LinkedIn : <a href="https://linkedin.com/in/nikk18" target="_blank" rel="noopener noreferrer" class="terminal-link">linkedin.com/in/nikk18</a>
+==========================================
 `,
 
 june:`
-JUNE AI ASSISTANT
+==========================================
+JUNE AI ASSISTANT SPECIFICATIONS
+==========================================
+Designation : J.U.N.E (Just-in-time Universal Neural Engine)
+Inspiration : J.A.R.V.I.S Architecture
+Capabilities: Natural language understanding,
+              real-time query resolution, system telemetry
+Status      : Active Development
+==========================================
+`,
 
-Inspired by J.A.R.V.I.S
-with AI reasoning and NLP systems.
+jarvis:`
+==========================================
+JUNE PROTOCOL [J.A.R.V.I.S ARCHITECTURE]
+==========================================
+"Good day. I am JUNE, Kaushal's autonomous
+assistant interface. All systems are operating
+at peak efficiency. How may I assist you?"
+
+Try typing: 'projects', 'skills', or 'scan'
+==========================================
+`,
+
+scan:`
+==========================================
+SYSTEM DIAGNOSTIC SCAN
+==========================================
+[✓] AI Core Subsystem     : ONLINE (v3.0 - OK)
+[✓] Neural Engine         : CONNECTED (0.8ms)
+[✓] Deep Learning Stack   : READY (TensorFlow)
+[✓] Memory Banks          : 64% NOMINAL
+[✓] Security Protocols    : ACTIVE (Quantum SSL)
+[✓] Project Modules (4)   : ALL OPERATIONAL
+------------------------------------------
+DIAGNOSTIC STATUS: ALL SYSTEMS NOMINAL
+==========================================
+`,
+
+neural:`
+==========================================
+NEURAL NETWORK CONFIGURATION
+==========================================
+Architecture : 2D Autonomous Synaptic Mesh
+Visualizer   : HTML5 Canvas Particle Engine
+Interactions : Cursor Proximity Force & Connectors
+Status       : Real-time background thread active
+Tip          : Type 'matrix' for Cyberpunk rain!
+==========================================
+`,
+
+activate:`
+==========================================
+>>> SYSTEM OVERDRIVE ACTIVATED <<<
+==========================================
+[⚡] Core frequencies elevated to 100%
+[⚡] Neural telemetry synchronized
+[⚡] Robot assistant calibrated to peak state
+==========================================
 `,
 
 status:`
-SYSTEM STATUS
-
-AI CORE        : ONLINE
-ML MODULE      : ACTIVE
-NLP ENGINE     : ACTIVE
-NEURAL SYSTEM  : RUNNING
+==========================================
+AI SYSTEM TELEMETRY
+==========================================
+AI CORE        : ONLINE ●
+ML MODULE      : ACTIVE ●
+NLP ENGINE     : ACTIVE ●
+NEURAL SYSTEM  : RUNNING ●
+VOICE API      : READY
+SYSTEM LOAD    : OPTIMAL (18%)
+==========================================
 `,
 
 system:`
-KAUSHAL OS v3.0
-
-Modules:
-- Hero Interface
-- AI Terminal
-- Neural Background
-- Matrix System
-- Project Database
+==========================================
+KAUSHAL OS v3.0 TELEMETRY
+==========================================
+Host       : kaushal-ai-station
+Kernel     : Kaushal-OS-Kernel-v3.0.4-LTS
+Shell      : kaushal-terminal-bash v2.1
+Status     : Secure / Connected
+Modules    : Hero Interface, AI Terminal, Neural Visualizer
+==========================================
 `
 };
 
@@ -725,39 +910,89 @@ function stopMatrix(){
 // =========================
 
 let commandHistory = [];
-
 let historyIndex = -1;
+let tempInput = "";
 
 // =========================
 // SUGGESTIONS
 // =========================
 
-input.addEventListener(
-    "input",
-    ()=>{
+function updateSuggestion(){
 
-        const value =
-            input.value
-            .trim()
-            .toLowerCase();
+    const value =
+        input.value
+        .trim()
+        .toLowerCase();
 
-        if(value === ""){
-
-            suggestionText.textContent =
-                "none";
-
-            return;
-        }
-
-        const match =
-            commandList.find(cmd =>
-                cmd.startsWith(value)
-            );
+    if(value === ""){
 
         suggestionText.textContent =
-            match || "none";
+            "none";
+
+        return;
     }
+
+    const match =
+        commandList.find(cmd =>
+            cmd.startsWith(value)
+        );
+
+    suggestionText.textContent =
+        match || "none";
+}
+
+input.addEventListener(
+    "input",
+    updateSuggestion
 );
+
+// Click suggestion to autocomplete
+const suggestionElement =
+    document.getElementById("suggestion-line");
+
+if(suggestionElement){
+
+    suggestionElement.addEventListener(
+        "click",
+        ()=>{
+
+            const text =
+                suggestionText.textContent;
+
+            if(text && text !== "none" && !input.disabled){
+
+                input.value = text;
+
+                updateSuggestion();
+
+                input.focus();
+            }
+        }
+    );
+}
+
+// Click anywhere on terminal to refocus input (unless highlighting text)
+if(terminal){
+
+    terminal.addEventListener(
+        "click",
+        ()=>{
+
+            const selection =
+                window.getSelection
+                    ? window.getSelection().toString()
+                    : "";
+
+            if(selection.length > 0){
+                return;
+            }
+
+            if(!input.disabled){
+                input.focus();
+            }
+        }
+    );
+}
 
 // =========================
 // TERMINAL INPUT
@@ -767,24 +1002,123 @@ input.addEventListener(
     "keydown",
     async e=>{
 
-        if(e.key === "Enter"){
+        // TAB AUTOCOMPLETE
+        if(e.key === "Tab"){
 
-            const cmd =
+            e.preventDefault();
+
+            const currentVal =
                 input.value
                 .trim()
                 .toLowerCase();
 
-            if(cmd === ""){
+            if(!currentVal){
                 return;
             }
 
-            commandHistory.push(cmd);
+            const match =
+                commandList.find(cmd =>
+                    cmd.startsWith(currentVal)
+                );
+
+            if(match){
+
+                input.value = match;
+
+                updateSuggestion();
+            }
+
+            return;
+        }
+
+        // HISTORY ARROW UP
+        if(e.key === "ArrowUp"){
+
+            e.preventDefault();
+
+            if(commandHistory.length === 0){
+                return;
+            }
+
+            if(historyIndex === commandHistory.length){
+                tempInput = input.value;
+            }
+
+            if(historyIndex > 0){
+
+                historyIndex--;
+
+                input.value =
+                    commandHistory[historyIndex];
+
+                updateSuggestion();
+            }
+
+            return;
+        }
+
+        // HISTORY ARROW DOWN
+        if(e.key === "ArrowDown"){
+
+            e.preventDefault();
+
+            if(commandHistory.length === 0){
+                return;
+            }
+
+            if(historyIndex < commandHistory.length - 1){
+
+                historyIndex++;
+
+                input.value =
+                    commandHistory[historyIndex];
+
+                updateSuggestion();
+
+            }else if(historyIndex === commandHistory.length - 1){
+
+                historyIndex =
+                    commandHistory.length;
+
+                input.value =
+                    tempInput || "";
+
+                updateSuggestion();
+            }
+
+            return;
+        }
+
+        // ENTER EXECUTION
+        if(e.key === "Enter"){
+
+            const rawVal =
+                input.value.trim();
+
+            const cmd =
+                rawVal.toLowerCase();
+
+            if(cmd === ""){
+
+                appendLine(
+                    "kaushal@os:~$",
+                    "command-line"
+                );
+
+                input.value = "";
+
+                return;
+            }
+
+            commandHistory.push(rawVal);
 
             historyIndex =
                 commandHistory.length;
 
+            tempInput = "";
+
             appendLine(
-                `kaushal@os:~$ ${cmd}`,
+                `kaushal@os:~$ ${rawVal}`,
                 "command-line"
             );
 
@@ -795,11 +1129,16 @@ input.addEventListener(
 
             input.disabled = true;
 
-            // CLEAR
+            // RESOLVE ALIASES
+            const resolvedCmd =
+                commandAliases[cmd] || cmd;
 
-            if(cmd === "clear"){
+            // CLEAR
+            if(resolvedCmd === "clear"){
 
                 output.innerHTML = "";
+
+                setRobotState("success", 800);
 
                 input.disabled = false;
 
@@ -809,23 +1148,97 @@ input.addEventListener(
             }
 
             // BOOT
+            if(resolvedCmd === "boot"){
 
-            if(cmd === "boot"){
+                setRobotState("thinking");
 
                 await bootTerminal();
+
+                setRobotState("success", 1200);
 
                 return;
             }
 
             // MATRIX
-
-            if(cmd === "matrix"){
+            if(resolvedCmd === "matrix"){
 
                 startMatrix();
+
+                setRobotState("success", 1200);
 
                 await typeLine(
                     "> Matrix mode activated.",
                     "success-text",
+                    12
+                );
+
+                speak("Matrix mode activated.");
+
+                input.disabled = false;
+
+                input.focus();
+
+                return;
+            }
+
+            // MATRIX OFF
+            if(resolvedCmd === "matrix off"){
+
+                stopMatrix();
+
+                setRobotState("idle");
+
+                await typeLine(
+                    "> Matrix mode deactivated.",
+                    "warning-text",
+                    12
+                );
+
+                speak("Matrix mode deactivated.");
+
+                input.disabled = false;
+
+                input.focus();
+
+                return;
+            }
+
+            // VOICE ON
+            if(resolvedCmd === "voice on" || resolvedCmd === "voice"){
+
+                voiceEnabled = true;
+
+                setRobotState("success", 1200);
+
+                await typeLine(
+                    "> Voice interaction enabled via Web Speech API.",
+                    "success-text",
+                    12
+                );
+
+                speak("Voice interaction active. Systems online.");
+
+                input.disabled = false;
+
+                input.focus();
+
+                return;
+            }
+
+            // VOICE OFF
+            if(resolvedCmd === "voice off"){
+
+                voiceEnabled = false;
+
+                if("speechSynthesis" in window){
+                    window.speechSynthesis.cancel();
+                }
+
+                setRobotState("idle");
+
+                await typeLine(
+                    "> Voice interaction disabled.",
+                    "warning-text",
                     12
                 );
 
@@ -836,14 +1249,35 @@ input.addEventListener(
                 return;
             }
 
-            // MATRIX OFF
+            // SUDO
+            if(resolvedCmd === "sudo"){
 
-            if(cmd === "matrix off"){
+                triggerGlitch();
 
-                stopMatrix();
+                setRobotState("error", 1500);
 
                 await typeLine(
-                    "> Matrix mode deactivated.",
+                    "ACCESS DENIED: 'kaushal' is the only root administrator.",
+                    "error-text",
+                    12
+                );
+
+                speak("Access denied. You are not root.");
+
+                input.disabled = false;
+
+                input.focus();
+
+                return;
+            }
+
+            // EXIT / QUIT
+            if(resolvedCmd === "exit" || resolvedCmd === "quit"){
+
+                setRobotState("thinking", 1000);
+
+                await typeLine(
+                    "SESSION ACTIVE: Kaushal OS terminal session cannot be terminated.",
                     "warning-text",
                     12
                 );
@@ -856,16 +1290,28 @@ input.addEventListener(
             }
 
             // NORMAL COMMANDS
-
-            if(commands[cmd]){
+            if(commands[resolvedCmd]){
 
                 await aiThinking();
 
+                setRobotState("success", 1500);
+
                 await typeBlock(
-                    commands[cmd],
+                    commands[resolvedCmd],
                     "output-line",
-                    8
+                    4
                 );
+
+                if(resolvedCmd === "jarvis"){
+                    speak("Good day. I am JUNE, Kaushal's autonomous assistant interface.");
+                }else if(resolvedCmd === "activate"){
+                    triggerGlitch();
+                    speak("System overdrive engaged.");
+                }else if(resolvedCmd === "scan"){
+                    speak("Diagnostic scan complete. All systems nominal.");
+                }else if(resolvedCmd === "whoami"){
+                    speak("Identity profile: Kaushal Kumar Jha, AI and Machine Learning Engineer.");
+                }
 
                 input.disabled = false;
 
@@ -874,15 +1320,18 @@ input.addEventListener(
                 return;
             }
 
-            // INVALID
-
+            // INVALID COMMAND
             triggerGlitch();
 
+            setRobotState("error", 1500);
+
             await typeLine(
-                `ERROR: '${cmd}' not found.`,
+                `ERROR: '${rawVal}' not found. Type 'help' to see all available commands.`,
                 "error-text",
                 12
             );
+
+            speak("Command not recognized.");
 
             input.disabled = false;
 
