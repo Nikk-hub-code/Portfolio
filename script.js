@@ -72,6 +72,17 @@ function setRobotState(state, duration = 0){
 // =========================
 
 let voiceEnabled = false;
+let availableVoices = [];
+
+function loadVoices(){
+    if(!("speechSynthesis" in window)) return;
+    availableVoices = window.speechSynthesis.getVoices();
+}
+
+if("speechSynthesis" in window){
+    loadVoices();
+    window.speechSynthesis.onvoiceschanged = loadVoices;
+}
 
 function speak(text){
     if(!voiceEnabled || !("speechSynthesis" in window)) return;
@@ -91,14 +102,111 @@ function speak(text){
         utterance.rate = 1.05;
         utterance.pitch = 1.0;
 
-        const voices = window.speechSynthesis.getVoices();
-        const preferredVoice = voices.find(v => v.lang.startsWith("en"));
+        if(availableVoices.length === 0) loadVoices();
+        const preferredVoice = availableVoices.find(v =>
+            v.lang.startsWith("en") && (v.name.includes("Natural") || v.name.includes("Google") || v.name.includes("Neural"))
+        ) || availableVoices.find(v => v.lang.startsWith("en"));
+
         if(preferredVoice) utterance.voice = preferredVoice;
 
         window.speechSynthesis.speak(utterance);
     }catch(err){
         console.warn("Speech synthesis error:", err);
     }
+}
+
+// =========================
+// CYBERPUNK WEB AUDIO SFX
+// =========================
+
+let audioCtx = null;
+let sfxEnabled = true;
+
+const sfxToggleBtn = document.getElementById("sfx-toggle");
+
+function getAudioContext(){
+    if(!audioCtx && (window.AudioContext || window.webkitAudioContext)){
+        const AudioClass = window.AudioContext || window.webkitAudioContext;
+        audioCtx = new AudioClass();
+    }
+    if(audioCtx && audioCtx.state === "suspended"){
+        audioCtx.resume();
+    }
+    return audioCtx;
+}
+
+function updateSfxButtonUI(){
+    if(!sfxToggleBtn) return;
+    sfxToggleBtn.textContent = sfxEnabled ? "🔊 SFX: ON" : "🔇 SFX: OFF";
+    sfxToggleBtn.style.color = sfxEnabled ? "var(--primary)" : "var(--accent-warn)";
+}
+
+if(sfxToggleBtn){
+    sfxToggleBtn.addEventListener("click", ()=>{
+        sfxEnabled = !sfxEnabled;
+        updateSfxButtonUI();
+        if(sfxEnabled){
+            playCyberChime();
+        }
+    });
+}
+
+function playKeyClick(){
+    if(!sfxEnabled) return;
+    try{
+        const ctx = getAudioContext();
+        if(!ctx) return;
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = "sine";
+        osc.frequency.setValueAtTime(750 + Math.random() * 250, ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(320, ctx.currentTime + 0.03);
+        gain.gain.setValueAtTime(0.03, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.03);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start();
+        osc.stop(ctx.currentTime + 0.03);
+    }catch(e){}
+}
+
+function playCyberChime(){
+    if(!sfxEnabled) return;
+    try{
+        const ctx = getAudioContext();
+        if(!ctx) return;
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = "triangle";
+        osc.frequency.setValueAtTime(523.25, ctx.currentTime); // C5
+        osc.frequency.exponentialRampToValueAtTime(783.99, ctx.currentTime + 0.12); // G5
+        gain.gain.setValueAtTime(0.06, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.18);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start();
+        osc.stop(ctx.currentTime + 0.18);
+    }catch(e){}
+}
+
+function playGlitchSound(){
+    if(!sfxEnabled) return;
+    try{
+        const ctx = getAudioContext();
+        if(!ctx) return;
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = "sawtooth";
+        osc.frequency.setValueAtTime(160, ctx.currentTime);
+        osc.frequency.setValueAtTime(110, ctx.currentTime + 0.04);
+        osc.frequency.setValueAtTime(70, ctx.currentTime + 0.08);
+        gain.gain.setValueAtTime(0.07, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.14);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start();
+        osc.stop(ctx.currentTime + 0.14);
+    }catch(e){}
 }
 
 // =========================
@@ -193,22 +301,6 @@ function typeHeroText(){
 }
 
 typeHeroText();
-
-// =========================
-// CURSOR GLOW
-// =========================
-
-document.addEventListener(
-    "mousemove",
-    e=>{
-
-        cursorGlow.style.left =
-            e.clientX + "px";
-
-        cursorGlow.style.top =
-            e.clientY + "px";
-    }
-);
 
 // =========================
 // SCROLL PROGRESS
@@ -533,6 +625,8 @@ const commandList = [
     "matrix off",
     "voice on",
     "voice off",
+    "sfx on",
+    "sfx off",
     "boot",
     "clear"
 ];
@@ -545,7 +639,10 @@ const commandAliases = {
     "linkedin": "socials",
     "ls": "help",
     "dir": "help",
-    "voice": "voice on"
+    "voice": "voice on",
+    "sound": "sfx on",
+    "audio": "sfx on",
+    "sfx": "sfx on"
 };
 
 const commands = {
@@ -574,6 +671,8 @@ matrix       - Engage cyberpunk matrix rain
 matrix off   - Disengage matrix rain
 voice on     - Enable voice synthesis (Web Speech API)
 voice off    - Disable voice synthesis
+sfx on       - Enable sci-fi audio effects (Web Audio API)
+sfx off      - Mute audio effects
 boot         - Rerun terminal boot sequence
 clear        - Clear the terminal screen
 ==========================================
@@ -1002,17 +1101,20 @@ input.addEventListener(
     "keydown",
     async e=>{
 
+        // KEYSTROKE SOUND
+        if(e.key !== "Enter" && e.key !== "Tab" && e.key !== "ArrowUp" && e.key !== "ArrowDown" && e.key !== "Shift" && e.key !== "Control" && e.key !== "Alt"){
+            playKeyClick();
+        }
+
         // TAB AUTOCOMPLETE
         if(e.key === "Tab"){
-
-            e.preventDefault();
-
             const currentVal =
                 input.value
                 .trim()
                 .toLowerCase();
 
             if(!currentVal){
+                // Allow normal Tab navigation out of input!
                 return;
             }
 
@@ -1022,10 +1124,10 @@ input.addEventListener(
                 );
 
             if(match){
-
+                e.preventDefault();
                 input.value = match;
-
                 updateSuggestion();
+                playKeyClick();
             }
 
             return;
