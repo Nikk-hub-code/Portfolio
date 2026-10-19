@@ -374,7 +374,9 @@ function appendLine(
         document.createElement("div");
 
     div.className =
-        className;
+        className.includes("output-line")
+            ? className
+            : `output-line ${className}`;
 
     div.innerHTML =
         text;
@@ -396,9 +398,17 @@ async function typeLine(
         document.createElement("div");
 
     div.className =
-        className;
+        className.includes("output-line")
+            ? className
+            : `output-line ${className}`;
 
     output.appendChild(div);
+
+    if(text === ""){
+        div.innerHTML = "&nbsp;";
+        scrollOutput();
+        return div;
+    }
 
     // If string contains HTML (links or styled spans), render directly to preserve tags
     if(text.includes("<") && text.includes(">")){
@@ -472,7 +482,7 @@ function triggerGlitch(){
 // TERMINAL BOOT
 // =========================
 
-async function bootTerminal(){
+async function bootTerminal(autoFocus = false){
 
     input.disabled = true;
 
@@ -540,50 +550,16 @@ async function bootTerminal(){
     }
 
     appendLine(
-
         `
         <div class="terminal-card">
-
             <div class="success-text">
                 WELCOME TO KAUSHAL AI TERMINAL
             </div>
-
+            
             <br>
-
-            Type
-            <span class="info-text">
-                'help'
-            </span>
-            to see all available commands. Press
-            <span class="info-text">
-                [Tab ↹]
-            </span>
-            to autocomplete.
-
+            Type <span class="info-text">'help'</span> to see all available commands.
+            Press <span class="info-text">[Tab ↹]</span> to autocomplete.
             <br><br>
-
-            Recommended queries:
-            <span class="info-text">
-                whoami
-            </span>,
-            <span class="info-text">
-                projects
-            </span>,
-            <span class="info-text">
-                skills
-            </span>,
-            <span class="info-text">
-                jarvis
-            </span>,
-            <span class="info-text">
-                scan
-            </span>,
-            <span class="info-text">
-                matrix
-            </span>,
-            <span class="info-text">
-                voice on
-            </span>
 
         </div>
         `
@@ -593,10 +569,12 @@ async function bootTerminal(){
 
     input.disabled = false;
 
-    input.focus();
+    if(autoFocus){
+        input.focus({ preventScroll: true });
+    }
 }
 
-bootTerminal();
+bootTerminal(false);
 
 // =========================
 // COMMANDS
@@ -1064,7 +1042,7 @@ if(suggestionElement){
 
                 updateSuggestion();
 
-                input.focus();
+                input.focus({ preventScroll: true });
             }
         }
     );
@@ -1087,7 +1065,7 @@ if(terminal){
             }
 
             if(!input.disabled){
-                input.focus();
+                input.focus({ preventScroll: true });
             }
         }
     );
@@ -1244,7 +1222,7 @@ input.addEventListener(
 
                 input.disabled = false;
 
-                input.focus();
+                input.focus({ preventScroll: true });
 
                 return;
             }
@@ -1254,7 +1232,7 @@ input.addEventListener(
 
                 setRobotState("thinking");
 
-                await bootTerminal();
+                await bootTerminal(true);
 
                 setRobotState("success", 1200);
 
@@ -1278,7 +1256,7 @@ input.addEventListener(
 
                 input.disabled = false;
 
-                input.focus();
+                input.focus({ preventScroll: true });
 
                 return;
             }
@@ -1300,7 +1278,7 @@ input.addEventListener(
 
                 input.disabled = false;
 
-                input.focus();
+                input.focus({ preventScroll: true });
 
                 return;
             }
@@ -1322,7 +1300,7 @@ input.addEventListener(
 
                 input.disabled = false;
 
-                input.focus();
+                input.focus({ preventScroll: true });
 
                 return;
             }
@@ -1346,7 +1324,7 @@ input.addEventListener(
 
                 input.disabled = false;
 
-                input.focus();
+                input.focus({ preventScroll: true });
 
                 return;
             }
@@ -1368,7 +1346,7 @@ input.addEventListener(
 
                 input.disabled = false;
 
-                input.focus();
+                input.focus({ preventScroll: true });
 
                 return;
             }
@@ -1386,7 +1364,7 @@ input.addEventListener(
 
                 input.disabled = false;
 
-                input.focus();
+                input.focus({ preventScroll: true });
 
                 return;
             }
@@ -1417,7 +1395,7 @@ input.addEventListener(
 
                 input.disabled = false;
 
-                input.focus();
+                input.focus({ preventScroll: true });
 
                 return;
             }
@@ -1437,7 +1415,7 @@ input.addEventListener(
 
             input.disabled = false;
 
-            input.focus();
+            input.focus({ preventScroll: true });
         }
     }
 );
