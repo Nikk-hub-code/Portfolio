@@ -1142,10 +1142,10 @@ body::after {
 /* Output Area */
 .output {
     flex: 1;
-    padding: 24px;
+    padding: 18px 22px;
     overflow-y: auto;
     font-size: 14px;
-    line-height: 1.8;
+    line-height: 1.4;
     position: relative;
     z-index: 2;
 }
@@ -1160,13 +1160,22 @@ body::after {
 
 .command-line {
     color: var(--secondary);
-    margin-bottom: 12px;
+    margin-top: 10px;
+    margin-bottom: 3px;
     font-weight: 500;
+    line-height: 1.4;
 }
 
-.output-line {
+.command-line:first-child {
+    margin-top: 0;
+}
+
+.output-line,
+.output > div:not(.terminal-card):not(.command-line) {
     color: var(--text-main);
-    margin-bottom: 8px;
+    margin-bottom: 2px;
+    line-height: 1.4;
+    min-height: 1.4em;
     white-space: pre-wrap;
     word-break: break-word;
 }
@@ -1189,11 +1198,12 @@ body::after {
 }
 
 .terminal-card {
-    margin-top: 20px;
-    padding: 20px;
+    margin-top: 5px;
+    margin-bottom: 6px;
+    padding: 11px 15px;
     border: 1px solid var(--border-dim);
     background: rgba(0, 255, 156, 0.03);
-    line-height: 1.8;
+    line-height: 1.45;
 }
 
 /* Suggestion Line */
